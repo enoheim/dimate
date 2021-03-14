@@ -23,5 +23,5 @@ yarn-debug.log*
 yarn-error.log*
 
 # Firebase
-firestore.rules
+/firestore.rules
 /src/firebase/config.ts
