@@ -1,0 +1,16 @@
+import { Reducer } from 'react'
+import * as Actions from './actions'
+import initialState from '../store/initialState'
+import { SignActionState, UserState } from './types'
+
+export const UsersReducer: Reducer<UserState, SignActionState> = (state = initialState.users, action): UserState => {
+  switch (action.type) {
+    case Actions.SIGN_IN:
+      return {
+        ...state,
+        ...action.payload,
+      }
+    default:
+      return state
+  }
+}
