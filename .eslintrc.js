@@ -29,7 +29,8 @@ module.exports = {
   ],
   root: true,
   rules: {
-    "react/prop-types": "off"
+    "react/prop-types": "off",
+    "@typescript-eslint/no-empty-interface": "off"
   },
   settings: {
     react: {

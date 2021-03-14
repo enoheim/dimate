@@ -2,7 +2,7 @@ import 'react-redux'
 import { RouterState } from 'connected-react-router'
 
 declare module 'react-redux' {
-  type DefaultRootState = RootState
+  interface DefaultRootState extends RootState {}
 }
 
 export type RootState = {
