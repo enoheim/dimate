@@ -28,7 +28,9 @@ module.exports = {
     "@typescript-eslint"
   ],
   root: true,
-  rules: {},
+  rules: {
+    "react/prop-types": "off"
+  },
   settings: {
     react: {
       version: "detect"
