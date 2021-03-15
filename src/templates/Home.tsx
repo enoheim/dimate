@@ -1,8 +1,10 @@
 import React from 'react'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
+import { signOut } from '../reducks/users/operations'
 import { getUserId, getUsername } from '../reducks/users/selectors'
 
 const Home: React.FC = () => {
+  const dispatch = useDispatch()
   const selector = useSelector((state) => state)
   const uid = getUserId(selector)
   const username = getUsername(selector)
@@ -18,6 +20,7 @@ const Home: React.FC = () => {
         ユーザー名:{username}
         {console.log(username)}
       </p>
+      <button onClick={() => dispatch(signOut())}>サインアウト</button>
     </div>
   )
 }

@@ -10,6 +10,10 @@ export const UsersReducer: Reducer<UserState, SignActionState> = (state = initia
         ...state,
         ...action.payload,
       }
+    case Actions.SIGN_OUT:
+      return {
+        ...action.payload,
+      }
     default:
       return state
   }

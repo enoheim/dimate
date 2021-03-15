@@ -1,7 +1,56 @@
 import { Dispatch } from 'redux'
 import { push } from 'connected-react-router'
-import { signInAction } from './actions'
+import { signInAction, signOutAction } from './actions'
 import { auth, db, FirebaseTimestamp } from '../../firebase/index'
+
+export const listenAuthState = () => {
+  return async (dispatch: Dispatch) => {
+    return auth.onAuthStateChanged((user) => {
+      if (user) {
+        const uid = user.uid
+
+        db.collection('users')
+          .doc(uid)
+          .get()
+          .then((snapshot) => {
+            const data = snapshot.data()
+
+            dispatch(
+              signInAction({
+                isSignedIn: true,
+                role: data?.role,
+                uid: uid,
+                username: data?.username,
+              })
+            )
+
+            dispatch(push('/'))
+          })
+      } else {
+        dispatch(push('/signin'))
+      }
+    })
+  }
+}
+
+export const resetPassword = (email: string) => {
+  return async (dispatch: Dispatch) => {
+    if (email === '') {
+      alert('必須項目が未入力です')
+      return false
+    } else {
+      auth
+        .sendPasswordResetEmail(email)
+        .then(() => {
+          alert('パスワードリセット用のメールを送信しました。')
+          dispatch(push('/signin'))
+        })
+        .catch(() => {
+          alert('パスワードリセット用のメール送信に失敗しました。')
+        })
+    }
+  }
+}
 
 export const signIn = (email: string, password: string) => {
   return async (dispatch: Dispatch) => {
@@ -72,6 +121,15 @@ export const signUp = (username: string, email: string, password: string, confir
             dispatch(push('/'))
           })
       }
+    })
+  }
+}
+
+export const signOut = () => {
+  return async (dispatsh: Dispatch) => {
+    auth.signOut().then(() => {
+      dispatsh(signOutAction())
+      dispatsh(push('/signin'))
     })
   }
 }

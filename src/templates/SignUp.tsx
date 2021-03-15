@@ -1,5 +1,6 @@
 import React, { useState, useCallback } from 'react'
 import { useDispatch } from 'react-redux'
+import { push } from 'connected-react-router'
 import { PrimaryButton, TextInput } from '../components/UIkit'
 import { signUp } from '../reducks/users/operations'
 
@@ -89,6 +90,8 @@ const SignUp: React.FC = () => {
           label={'アカウント登録'}
           onClick={() => dispatch(signUp(username, email, password, confirmPassword))}
         />
+        <div className="module-spacer--medium" />
+        <p onClick={() => dispatch(push('/signin'))}>アカウントをお持ちの方</p>
       </div>
     </div>
   )
