@@ -1,1 +1,1 @@
-import { dishState } from './types'
+import { DishState } from './types'

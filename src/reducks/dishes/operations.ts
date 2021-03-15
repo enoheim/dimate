@@ -1,10 +1,17 @@
 import { push } from 'connected-react-router'
 import { Dispatch } from 'redux'
 import { db, FirebaseTimestamp } from '../../firebase'
+import { ImageProps } from './types'
 
 const dishesRef = db.collection('dishes')
 
-export const saveDish = (recipeTitle: string, recipeUrl: string, ingredients: string, description: string) => {
+export const saveDish = (
+  recipeTitle: string,
+  recipeUrl: string,
+  ingredients: string,
+  description: string,
+  images: ImageProps
+) => {
   return async (dispatch: Dispatch) => {
     const timestamp = FirebaseTimestamp.now()
 
@@ -15,6 +22,7 @@ export const saveDish = (recipeTitle: string, recipeUrl: string, ingredients: st
       ingredients: string
       description: string
       updated_at: typeof timestamp
+      images: ImageProps
       id: string
       created_at: typeof timestamp
     }
@@ -25,6 +33,7 @@ export const saveDish = (recipeTitle: string, recipeUrl: string, ingredients: st
       ingredients: ingredients,
       description: description,
       updated_at: timestamp,
+      images: images,
     }
 
     const ref = dishesRef.doc()

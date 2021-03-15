@@ -1,7 +1,9 @@
 import React, { useCallback, useState } from 'react'
 import { useDispatch } from 'react-redux'
-import { PrimaryButton, TextInput } from 'components/UIkit'
-import { saveDish } from 'reducks/dishes/operations'
+import { ImageArea } from 'components/Dishes/'
+import { PrimaryButton, TextInput } from '../components/UIkit'
+import { saveDish } from '../reducks/dishes/operations'
+import { ImageProps } from '../reducks/dishes/types'
 
 const DishEdit: React.FC = () => {
   const dispatch = useDispatch()
@@ -9,7 +11,8 @@ const DishEdit: React.FC = () => {
   const [recipeTitle, setRecipeTitle] = useState(''),
     [recipeUrl, setRecipeUrl] = useState(''),
     [ingredients, setIngredients] = useState(''),
-    [description, setDescription] = useState('')
+    [description, setDescription] = useState(''),
+    [images, setImages] = useState<ImageProps>([])
 
   const inputRecipeTitle = useCallback(
     (event) => {
@@ -43,6 +46,7 @@ const DishEdit: React.FC = () => {
     <section>
       <h2 className="u-text__headline u-text-center">レシピの追加</h2>
       <div className="c-section-container">
+        <ImageArea images={images} setImages={setImages} />
         <TextInput
           fullWidth={true}
           label={'タイトル'}
@@ -87,7 +91,7 @@ const DishEdit: React.FC = () => {
         <div className="center">
           <PrimaryButton
             label={'レシピを登録'}
-            onClick={() => dispatch(saveDish(recipeTitle, recipeUrl, ingredients, description))}
+            onClick={() => dispatch(saveDish(recipeTitle, recipeUrl, ingredients, description, images))}
           />
         </div>
       </div>
