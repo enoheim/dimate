@@ -1,4 +1,10 @@
 const initialState = {
+  dishes: {
+    recipeTitle: '',
+    recipeUrl: '',
+    ingredients: '',
+    description: '',
+  },
   users: {
     isSignedIn: false,
     role: '',

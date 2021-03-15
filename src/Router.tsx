@@ -1,7 +1,7 @@
 import React from 'react'
 import { Route, Switch } from 'react-router'
 import Auth from './Auth'
-import { Home, Reset, SignIn, SignUp } from './templates'
+import { DishEdit, Home, Reset, SignIn, SignUp } from './templates'
 
 const Router: React.FC = () => {
   return (
@@ -11,6 +11,7 @@ const Router: React.FC = () => {
       <Route exact path="/signup" component={SignUp} />
       <Auth>
         <Route exact path="/(/)?" component={Home} />
+        <Route exact path="/dish/edit" component={DishEdit} />
       </Auth>
     </Switch>
   )

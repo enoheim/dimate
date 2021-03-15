@@ -1,4 +1,5 @@
 import 'react-redux'
+import { dishState } from '../dishes/types'
 import { RouterState } from 'connected-react-router'
 
 declare module 'react-redux' {
@@ -6,6 +7,7 @@ declare module 'react-redux' {
 }
 
 export type RootState = {
+  dishes: dishState
   router: RouterState
   users: UserState
 }
