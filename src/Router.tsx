@@ -11,7 +11,7 @@ const Router: React.FC = () => {
       <Route exact path="/signup" component={SignUp} />
       <Auth>
         <Route exact path="/(/)?" component={Home} />
-        <Route exact path="/dish/edit" component={DishEdit} />
+        <Route path="/dish/edit(/:id)?" component={DishEdit} />
       </Auth>
     </Switch>
   )

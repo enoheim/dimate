@@ -1,18 +1,24 @@
-import React, { useCallback, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { ImageArea } from 'components/Dishes/'
 import { PrimaryButton, TextInput } from '../components/UIkit'
+import { db } from '../firebase/index'
 import { saveDish } from '../reducks/dishes/operations'
 import { ImageProps } from '../reducks/dishes/types'
 
 const DishEdit: React.FC = () => {
   const dispatch = useDispatch()
+  let id = window.location.pathname.split('/dish/edit')[1]
 
-  const [recipeTitle, setRecipeTitle] = useState(''),
+  if (id !== '') {
+    id = id.split('/')[1]
+  }
+
+  const [images, setImages] = useState<ImageProps>([]),
+    [recipeTitle, setRecipeTitle] = useState(''),
     [recipeUrl, setRecipeUrl] = useState(''),
     [ingredients, setIngredients] = useState(''),
-    [description, setDescription] = useState(''),
-    [images, setImages] = useState<ImageProps>([])
+    [description, setDescription] = useState('')
 
   const inputRecipeTitle = useCallback(
     (event) => {
@@ -42,11 +48,27 @@ const DishEdit: React.FC = () => {
     [setDescription]
   )
 
+  useEffect(() => {
+    if (id !== '') {
+      db.collection('dishes')
+        .doc(id)
+        .get()
+        .then((snapshot) => {
+          const data = snapshot.data()
+          setImages(data?.images)
+          setRecipeTitle(data?.recipeTitle)
+          setRecipeUrl(data?.recipeUrl)
+          setIngredients(data?.ingredients)
+          setDescription(data?.description)
+        })
+    }
+  }, [id])
+
   return (
     <section>
-      <h2 className="u-text__headline u-text-center">レシピの追加</h2>
+      <h2 className="u-text__headline u-text-center">レシピの追加・編集</h2>
       <div className="c-section-container">
-        <ImageArea images={images} setImages={setImages} />
+        <ImageArea images={images} pageId={id} setImages={setImages} />
         <TextInput
           fullWidth={true}
           label={'タイトル'}
@@ -90,8 +112,8 @@ const DishEdit: React.FC = () => {
         <div className="module-spacer--medium" />
         <div className="center">
           <PrimaryButton
-            label={'レシピを登録'}
-            onClick={() => dispatch(saveDish(recipeTitle, recipeUrl, ingredients, description, images))}
+            label={'レシピの追加・編集'}
+            onClick={() => dispatch(saveDish(id, images, recipeTitle, recipeUrl, ingredients, description))}
           />
         </div>
       </div>

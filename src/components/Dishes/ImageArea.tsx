@@ -5,6 +5,7 @@ import { makeStyles } from '@material-ui/styles'
 import { storage } from '../../firebase/index'
 import { ImagePreview } from './index'
 import { ImageProps } from '../../reducks/dishes/types'
+import { db } from '../../firebase/index'
 
 const useStyles = makeStyles({
   icon: {
@@ -15,6 +16,7 @@ const useStyles = makeStyles({
 
 type Props = {
   images: ImageProps
+  pageId?: string
   setImages: (arg0: any) => void
 }
 
@@ -29,6 +31,12 @@ const ImageArea: React.FC<Props> = (props) => {
       } else {
         const newImages = props.images.filter((image) => image.id !== id)
         props.setImages(newImages)
+        if (props.pageId) {
+          const updateRef = db.collection('dishes').doc(props.pageId)
+          await updateRef.update({
+            images: newImages,
+          })
+        }
         return storage.ref('images').child(id).delete()
       }
     },

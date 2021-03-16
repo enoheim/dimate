@@ -6,44 +6,47 @@ import { ImageProps } from './types'
 const dishesRef = db.collection('dishes')
 
 export const saveDish = (
+  id: string,
+  images: ImageProps,
   recipeTitle: string,
   recipeUrl: string,
   ingredients: string,
-  description: string,
-  images: ImageProps
+  description: string
 ) => {
   return async (dispatch: Dispatch) => {
     const timestamp = FirebaseTimestamp.now()
 
     // 定義に無いプロパティ(id, created_at)対策の型定義
     type dbData = {
+      id: string
+      images: ImageProps
       recipeTitle: string
       recipeUrl: string
       ingredients: string
       description: string
       updated_at: typeof timestamp
-      images: ImageProps
-      id: string
       created_at: typeof timestamp
     }
 
     const data = <dbData>{
+      images: images,
       recipeTitle: recipeTitle,
       recipeUrl: recipeUrl,
       ingredients: ingredients,
       description: description,
       updated_at: timestamp,
-      images: images,
     }
 
-    const ref = dishesRef.doc()
-    const id = ref.id
-    data.id = id
-    data.created_at = timestamp
+    if (id === '') {
+      const ref = dishesRef.doc()
+      id = ref.id
+      data.id = id
+      data.created_at = timestamp
+    }
 
     return dishesRef
       .doc(id)
-      .set(data)
+      .set(data, { merge: true })
       .then(() => {
         dispatch(push('/'))
       })
