@@ -1,15 +1,20 @@
 import 'react-redux'
-import { DishState } from '../dishes/types'
 import { RouterState } from 'connected-react-router'
+import { ListState } from '../dishes/types'
 
 declare module 'react-redux' {
   interface DefaultRootState extends RootState {}
 }
 
 export type RootState = {
-  dishes: DishState
+  dishes: ListState
   router: RouterState
   users: UserState
+}
+
+export type SignActionState = {
+  type: string
+  payload: UserState
 }
 
 export type UserState = {
@@ -17,9 +22,4 @@ export type UserState = {
   role: string
   uid: string
   username: string
-}
-
-export type SignActionState = {
-  type: string
-  payload: UserState
 }

@@ -1,9 +1,6 @@
 const initialState = {
   dishes: {
-    recipeTitle: '',
-    recipeUrl: '',
-    ingredients: '',
-    description: '',
+    list: [],
   },
   users: {
     isSignedIn: false,
