@@ -1,3 +1,4 @@
+export { default as DishDetail } from './DishDetail'
 export { default as DishEdit } from './DishEdit'
 export { default as DishList } from './DishList'
 export { default as Home } from './Home'
