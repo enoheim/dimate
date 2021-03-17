@@ -35,6 +35,10 @@ const useStyles = makeStyles((theme) => ({
       paddingBottom: 16,
     },
   },
+  icon: {
+    marginRight: 0,
+    marginLeft: 'auto',
+  },
   media: {
     height: 0,
     paddingTop: '100%',
@@ -42,10 +46,10 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 type Props = {
+  category: string
   id: string
-  name: string
   images: ImageProps
-  url: string
+  name: string
 }
 
 const DishCard: React.FC<Props> = (props) => {
@@ -74,12 +78,12 @@ const DishCard: React.FC<Props> = (props) => {
       />
       <CardContent className={classes.content}>
         <div onClick={() => dispatch(push('dish/' + props.id))}>
+          <Typography component="p">{props.name}</Typography>
           <Typography color="textSecondary" component="p">
-            {props.name}
+            {props.category}
           </Typography>
-          <Typography component="p">{props.url}</Typography>
         </div>
-        <IconButton onClick={handleClick}>
+        <IconButton className={classes.icon} onClick={handleClick}>
           <MoreVert />
         </IconButton>
         <Menu anchorEl={anchorEl} keepMounted open={Boolean(anchorEl)} onClose={handleClose}>

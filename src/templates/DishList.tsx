@@ -22,7 +22,13 @@ const DishList: React.FC = () => {
       <div className="p-grid__row">
         {dishes.length > 0 &&
           dishes.map((dish) => (
-            <DishCard key={dish.id} id={dish.id} name={dish.recipeTitle} images={dish.images} url={dish.recipeUrl} />
+            <DishCard
+              category={dish.category}
+              id={dish.id}
+              images={dish.images}
+              key={dish.id}
+              name={dish.recipeTitle}
+            />
           ))}
       </div>
     </section>
