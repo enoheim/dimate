@@ -1,5 +1,6 @@
 import React from 'react'
 import { Route, Switch } from 'react-router'
+
 import Auth from './Auth'
 import { DishDetail, DishEdit, DishList, Reset, SignIn, SignUp } from './templates'
 

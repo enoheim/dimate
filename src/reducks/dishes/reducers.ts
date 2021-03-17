@@ -1,6 +1,7 @@
 import { Reducer } from 'react'
-import * as Actions from './actions'
+
 import initialState from '../store/initialState'
+import * as Actions from './actions'
 import { FetchActionState, ListState } from './types'
 
 export const DishesReducer: Reducer<ListState, FetchActionState> = (state = initialState.dishes, action) => {

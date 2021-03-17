@@ -1,6 +1,7 @@
 import { Reducer } from 'react'
-import * as Actions from './actions'
+
 import initialState from '../store/initialState'
+import * as Actions from './actions'
 import { SignActionState, UserState } from './types'
 
 export const UsersReducer: Reducer<UserState, SignActionState> = (state = initialState.users, action) => {

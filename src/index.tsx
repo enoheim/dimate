@@ -1,9 +1,10 @@
+import { ConnectedRouter } from 'connected-react-router'
+import * as History from 'history'
 import React from 'react'
 import ReactDOM from 'react-dom'
 import { Provider } from 'react-redux'
-import { ConnectedRouter } from 'connected-react-router'
+
 import App from './App'
-import * as History from 'history'
 import createStore from './reducks/store/store'
 
 const history = History.createBrowserHistory()

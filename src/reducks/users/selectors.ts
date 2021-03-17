@@ -1,4 +1,5 @@
 import { createSelector } from 'reselect'
+
 import { RootState } from './types'
 
 const usersSelector = (state: RootState) => state.users

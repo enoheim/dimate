@@ -1,7 +1,8 @@
 import { push } from 'connected-react-router'
 import { Dispatch } from 'redux'
-import { deleteDishAction, fetchDishesAction } from './actions'
+
 import { db, FirebaseTimestamp } from '../../firebase'
+import { deleteDishAction, fetchDishesAction } from './actions'
 import { DishState, ImageProps } from './types'
 
 const dishesRef = db.collection('dishes')

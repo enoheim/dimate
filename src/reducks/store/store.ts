@@ -1,7 +1,8 @@
-import { createStore as reduxCreateStore, combineReducers, applyMiddleware } from 'redux'
-import thunk from 'redux-thunk'
 import { connectRouter, routerMiddleware } from 'connected-react-router'
 import { History } from 'history'
+import { applyMiddleware, combineReducers, createStore as reduxCreateStore } from 'redux'
+import thunk from 'redux-thunk'
+
 import { DishesReducer } from '../dishes/reducers'
 import { UsersReducer } from '../users/reducers'
 

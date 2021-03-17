@@ -1,8 +1,10 @@
+import 'swiper/css/swiper.css'
+
 import React, { useState } from 'react'
 import Swiper from 'react-id-swiper'
+
 import NoImage from '../../assets/img/no_image.png'
 import { ImageProps } from '../../reducks/dishes/types'
-import 'swiper/css/swiper.css'
 
 type Props = {
   images: ImageProps

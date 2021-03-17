@@ -1,7 +1,8 @@
-import { Dispatch } from 'redux'
 import { push } from 'connected-react-router'
-import { signInAction, signOutAction } from './actions'
+import { Dispatch } from 'redux'
+
 import { auth, db, FirebaseTimestamp } from '../../firebase'
+import { signInAction, signOutAction } from './actions'
 
 export const listenAuthState = () => {
   return async (dispatch: Dispatch) => {

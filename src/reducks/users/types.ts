@@ -1,5 +1,7 @@
 import 'react-redux'
+
 import { RouterState } from 'connected-react-router'
+
 import { ListState } from '../dishes/types'
 
 declare module 'react-redux' {
