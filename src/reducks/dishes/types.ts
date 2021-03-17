@@ -1,4 +1,10 @@
+export type ArrayProps = {
+  id: string
+  name: string
+}[]
+
 export type DishState = {
+  category: string
   description: string
   id: string
   images: ImageProps

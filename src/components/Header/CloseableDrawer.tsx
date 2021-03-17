@@ -1,5 +1,5 @@
 import { push } from 'connected-react-router'
-import React, { useCallback, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
 
 import Divider from '@material-ui/core/Divider'
@@ -15,6 +15,7 @@ import ExitToAppIcon from '@material-ui/icons/ExitToApp'
 import PersonIcon from '@material-ui/icons/Person'
 import SearchIcon from '@material-ui/icons/Search'
 
+import { db } from '../../firebase'
 import { signOut } from '../../reducks/users/operations'
 import { TextInput } from '../UIkit'
 
@@ -59,10 +60,26 @@ const ClosableDrawer: React.FC<Props> = (props) => {
     props.onClose(event)
   }
 
+  const [filters, setFilters] = useState([{ func: selectMenu, label: '全て', id: 'all', value: '/' }])
+
   const menus = [
     { func: selectMenu, label: 'プロフィール', icon: <PersonIcon />, id: 'profile', value: '/user/mypage' },
     { func: selectMenu, label: 'レシピ追加', icon: <AddCircleIcon />, id: 'add', value: '/dish/edit' },
   ]
+
+  useEffect(() => {
+    db.collection('categories')
+      .orderBy('name', 'asc')
+      .get()
+      .then((snapshots) => {
+        const list: any = []
+        snapshots.forEach((snapshot) => {
+          const category = snapshot.data()
+          list.push({ func: selectMenu, label: category.name, id: category.id, value: `/?category=${category.id}` })
+        })
+        setFilters((prevState) => [...prevState, ...list])
+      })
+  }, [])
 
   return (
     <nav className={classes.drawer}>
@@ -105,6 +122,14 @@ const ClosableDrawer: React.FC<Props> = (props) => {
               </ListItemIcon>
               <ListItemText primary={'サインアウト'} />
             </ListItem>
+          </List>
+          <Divider />
+          <List>
+            {filters.map((filter) => (
+              <ListItem button key={filter.id} onClick={(event) => filter.func(event, filter.value)}>
+                <ListItemText primary={filter.label} />
+              </ListItem>
+            ))}
           </List>
         </div>
       </Drawer>

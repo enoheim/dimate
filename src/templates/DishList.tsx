@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
+
 import { DishCard } from '../components/Dishes'
 import { fetchDishes } from '../reducks/dishes/operations'
 import { getDishes } from '../reducks/dishes/selectors'
@@ -9,9 +10,12 @@ const DishList: React.FC = () => {
   const selector = useSelector((state) => state)
   const dishes = getDishes(selector)
 
+  const query = selector.router.location.search
+  const category = /^\?category=/.test(query) ? query.split('?category=')[1] : ''
+
   useEffect(() => {
-    dispatch(fetchDishes())
-  }, [])
+    dispatch(fetchDishes(category))
+  }, [query])
 
   return (
     <section className="c-section-wrapin">

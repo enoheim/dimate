@@ -20,51 +20,53 @@ export const deleteDish = (id: string) => {
   }
 }
 
-export const fetchDishes = () => {
+export const fetchDishes = (category: string) => {
   return async (dispatch: Dispatch) => {
-    dishesRef
-      .orderBy('updated_at', 'desc')
-      .get()
-      .then((snapshots) => {
-        const dishList: any = []
-        snapshots.forEach((snapshot) => {
-          const dish = snapshot.data()
-          dishList.push(dish)
-        })
-        dispatch(fetchDishesAction(dishList))
+    let query = dishesRef.orderBy('recipeTitle', 'asc')
+    query = category !== '' ? query.where('category', '==', category) : query
+    query.get().then((snapshots) => {
+      const dishList: any = []
+      snapshots.forEach((snapshot) => {
+        const dish = snapshot.data()
+        dishList.push(dish)
       })
+      dispatch(fetchDishesAction(dishList))
+    })
   }
 }
 
 export const saveDish = (
+  category: string,
+  description: string,
   id: string,
   images: ImageProps,
-  recipeTitle: string,
-  recipeUrl: string,
   ingredients: string,
-  description: string
+  recipeTitle: string,
+  recipeUrl: string
 ) => {
   return async (dispatch: Dispatch) => {
     const timestamp = FirebaseTimestamp.now()
 
     // 定義に無いプロパティ(id, created_at)対策の型定義
     type dbData = {
-      id: string
+      category: string
+      description: string
       images: ImageProps
+      ingredients: string
       recipeTitle: string
       recipeUrl: string
-      ingredients: string
-      description: string
       updated_at: typeof timestamp
+      id: string
       created_at: typeof timestamp
     }
 
     const data = <dbData>{
+      category: category,
+      description: description,
       images: images,
+      ingredients: ingredients,
       recipeTitle: recipeTitle,
       recipeUrl: recipeUrl,
-      ingredients: ingredients,
-      description: description,
       updated_at: timestamp,
     }
 

@@ -1,10 +1,11 @@
+import { ImageArea } from 'components/Dishes/'
 import React, { useCallback, useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
-import { ImageArea } from 'components/Dishes/'
-import { PrimaryButton, TextInput } from '../components/UIkit'
+
+import { PrimaryButton, SelectBox, TextInput } from '../components/UIkit'
 import { db } from '../firebase/index'
 import { saveDish } from '../reducks/dishes/operations'
-import { ImageProps } from '../reducks/dishes/types'
+import { ArrayProps, ImageProps } from '../reducks/dishes/types'
 
 const DishEdit: React.FC = () => {
   const dispatch = useDispatch()
@@ -14,7 +15,9 @@ const DishEdit: React.FC = () => {
     id = id.split('/')[1]
   }
 
-  const [images, setImages] = useState<ImageProps>([]),
+  const [category, setCategory] = useState(''),
+    [categories, setCategories] = useState<ArrayProps>([]),
+    [images, setImages] = useState<ImageProps>([]),
     [recipeTitle, setRecipeTitle] = useState(''),
     [recipeUrl, setRecipeUrl] = useState(''),
     [ingredients, setIngredients] = useState(''),
@@ -64,6 +67,23 @@ const DishEdit: React.FC = () => {
     }
   }, [id])
 
+  useEffect(() => {
+    db.collection('categories')
+      .orderBy('name', 'asc')
+      .get()
+      .then((snapshots) => {
+        const list: ArrayProps = []
+        snapshots.forEach((snapshot) => {
+          const data = snapshot.data()
+          list.push({
+            id: data.id,
+            name: data.name,
+          })
+        })
+        setCategories(list)
+      })
+  }, [])
+
   return (
     <section>
       <h2 className="u-text__headline u-text-center">レシピの追加・編集</h2>
@@ -89,6 +109,7 @@ const DishEdit: React.FC = () => {
           value={recipeUrl}
           type={'text'}
         />
+        <SelectBox label={'カテゴリ'} required={true} options={categories} select={setCategory} value={category} />
         <TextInput
           fullWidth={true}
           label={'材料'}
@@ -113,7 +134,7 @@ const DishEdit: React.FC = () => {
         <div className="center">
           <PrimaryButton
             label={'レシピの追加・編集'}
-            onClick={() => dispatch(saveDish(id, images, recipeTitle, recipeUrl, ingredients, description))}
+            onClick={() => dispatch(saveDish(category, description, id, images, ingredients, recipeTitle, recipeUrl))}
           />
         </div>
       </div>
