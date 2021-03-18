@@ -72,6 +72,7 @@ const DishEdit: React.FC = () => {
         .get()
         .then((snapshot) => {
           const data = snapshot.data()
+          setCategory(data?.category)
           setImages(data?.images)
           setRecipeTitle(data?.recipeTitle)
           setRecipeUrl(data?.recipeUrl)
