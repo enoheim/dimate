@@ -42,7 +42,8 @@ export const saveDish = (
   images: ImageProps,
   ingredients: string,
   recipeTitle: string,
-  recipeUrl: string
+  recipeUrl: string,
+  uid: string
 ) => {
   return async (dispatch: Dispatch) => {
     const timestamp = FirebaseTimestamp.now()
@@ -55,6 +56,7 @@ export const saveDish = (
       ingredients: string
       recipeTitle: string
       recipeUrl: string
+      uid: string
       updated_at: typeof timestamp
       id: string
       created_at: typeof timestamp
@@ -67,6 +69,7 @@ export const saveDish = (
       ingredients: ingredients,
       recipeTitle: recipeTitle,
       recipeUrl: recipeUrl,
+      uid: uid,
       updated_at: timestamp,
     }
 

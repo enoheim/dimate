@@ -1,6 +1,6 @@
 import { ImageArea } from 'components/Dishes/'
 import React, { useCallback, useEffect, useState } from 'react'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 
 import { makeStyles } from '@material-ui/core/styles'
 
@@ -8,6 +8,7 @@ import { PrimaryButton, SelectBox, TextInput } from '../components/UIkit'
 import { db } from '../firebase/index'
 import { saveDish } from '../reducks/dishes/operations'
 import { ArrayProps, ImageProps } from '../reducks/dishes/types'
+import { getUserId } from '../reducks/users/selectors'
 
 const useStyles = makeStyles((theme) => ({
   head: {
@@ -20,14 +21,12 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
-const DishEdit: React.FC = () => {
+const DishAdd: React.FC = () => {
   const classes = useStyles()
   const dispatch = useDispatch()
-  let id = window.location.pathname.split('/dish/edit')[1]
-
-  if (id !== '') {
-    id = id.split('/')[1]
-  }
+  const selector = useSelector((state) => state)
+  const uid = getUserId(selector)
+  const id = ''
 
   const [category, setCategory] = useState(''),
     [categories, setCategories] = useState<ArrayProps>([]),
@@ -35,8 +34,7 @@ const DishEdit: React.FC = () => {
     [recipeTitle, setRecipeTitle] = useState(''),
     [recipeUrl, setRecipeUrl] = useState(''),
     [ingredients, setIngredients] = useState(''),
-    [description, setDescription] = useState(''),
-    [uid, setUid] = useState('')
+    [description, setDescription] = useState('')
 
   const inputRecipeTitle = useCallback(
     (event) => {
@@ -67,24 +65,6 @@ const DishEdit: React.FC = () => {
   )
 
   useEffect(() => {
-    if (id !== '') {
-      db.collection('dishes')
-        .doc(id)
-        .get()
-        .then((snapshot) => {
-          const data = snapshot.data()
-          setCategory(data?.category)
-          setImages(data?.images)
-          setRecipeTitle(data?.recipeTitle)
-          setRecipeUrl(data?.recipeUrl)
-          setIngredients(data?.ingredients)
-          setDescription(data?.description)
-          setUid(data?.uid)
-        })
-    }
-  }, [id])
-
-  useEffect(() => {
     db.collection('categories')
       .orderBy('name', 'asc')
       .get()
@@ -104,7 +84,7 @@ const DishEdit: React.FC = () => {
   return (
     <div className="section-container">
       <div className="spacer-medium" />
-      <h2 className={classes.head}>レシピの編集</h2>
+      <h2 className={classes.head}>レシピの追加</h2>
       <div className="c-section-container">
         <ImageArea images={images} pageId={id} setImages={setImages} />
         <TextInput
@@ -151,7 +131,7 @@ const DishEdit: React.FC = () => {
         <div className="spacer-small" />
         <div className="spacer-small" />
         <PrimaryButton
-          label={'レシピの編集'}
+          label={'レシピの追加'}
           onClick={() =>
             dispatch(saveDish(category, description, id, images, ingredients, recipeTitle, recipeUrl, uid))
           }
@@ -161,4 +141,4 @@ const DishEdit: React.FC = () => {
   )
 }
 
-export default DishEdit
+export default DishAdd

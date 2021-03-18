@@ -73,7 +73,7 @@ const ClosableDrawer: React.FC<Props> = (props) => {
 
   const menus = [
     // { func: selectMenu, label: 'プロフィール', icon: <PersonIcon />, id: 'profile', value: '/user/mypage' },
-    { func: selectMenu, label: 'レシピ追加', icon: <AddCircleIcon />, id: 'add', value: '/dish/edit' },
+    { func: selectMenu, label: 'レシピ追加', icon: <AddCircleIcon />, id: 'add', value: '/dish/add' },
   ]
 
   useEffect(() => {
