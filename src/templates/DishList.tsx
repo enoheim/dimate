@@ -18,18 +18,10 @@ const DishList: React.FC = () => {
   }, [query])
 
   return (
-    <section className="c-section-wrapin">
-      <div className="p-grid__row">
+    <section className="section-wrap">
+      <div className="grid-row">
         {dishes.length > 0 &&
-          dishes.map((dish) => (
-            <DishCard
-              category={dish.category}
-              id={dish.id}
-              images={dish.images}
-              key={dish.id}
-              name={dish.recipeTitle}
-            />
-          ))}
+          dishes.map((dish) => <DishCard id={dish.id} images={dish.images} key={dish.id} name={dish.recipeTitle} />)}
       </div>
     </section>
   )

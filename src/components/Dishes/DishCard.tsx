@@ -10,7 +10,7 @@ import Menu from '@material-ui/core/Menu'
 import MenuItem from '@material-ui/core/MenuItem'
 import { makeStyles } from '@material-ui/core/styles'
 import Typography from '@material-ui/core/Typography'
-import MoreVert from '@material-ui/icons/MoreVert'
+import MoreVertIcon from '@material-ui/icons/MoreVert'
 
 import NoImage from '../../assets/img/no_image.png'
 import { deleteDish } from '../../reducks/dishes/operations'
@@ -20,33 +20,48 @@ const useStyles = makeStyles((theme) => ({
   root: {
     [theme.breakpoints.down('sm')]: {
       margin: 8,
-      width: 'calc(50% - 16px)',
+      width: 'calc(100% - 16px)',
     },
     [theme.breakpoints.up('sm')]: {
-      margin: 16,
-      width: 'calc(33.3333% - 32px)',
+      margin: 8,
+      width: 'calc(33.3333% - 16px)',
     },
   },
+  media: {
+    backgroundColor: theme.palette.primary.main,
+    height: 0,
+    paddingTop: '100%',
+  },
   content: {
+    backgroundColor: theme.palette.primary.main,
     display: 'flex',
-    padding: '16px 8px',
+    padding: '8px 8px',
     textAlign: 'left',
     '&:last-child': {
-      paddingBottom: 16,
+      paddingBottom: '8px',
     },
   },
   icon: {
-    marginRight: 0,
+    color: theme.palette.secondary.main,
     marginLeft: 'auto',
   },
-  media: {
-    height: 0,
-    paddingTop: '100%',
+  font: {
+    [theme.breakpoints.down('sm')]: {
+      width: '400px',
+    },
+    [theme.breakpoints.up('sm')]: {
+      width: '130px',
+    },
+    color: theme.palette.secondary.main,
+    overflow: 'hidden',
+    whiteSpace: 'nowrap',
+    fontSize: '16px',
+    textOverflow: 'ellipsis',
+    lineHeight: '46px',
   },
 }))
 
 type Props = {
-  category: string
   id: string
   images: ImageProps
   name: string
@@ -74,17 +89,16 @@ const DishCard: React.FC<Props> = (props) => {
         className={classes.media}
         image={images[0].path}
         title=""
-        onClick={() => dispatch(push('dish/' + props.id))}
+        onClick={() => dispatch(push('dish/detail/' + props.id))}
       />
       <CardContent className={classes.content}>
-        <div onClick={() => dispatch(push('dish/' + props.id))}>
-          <Typography component="p">{props.name}</Typography>
-          <Typography color="textSecondary" component="p">
-            {props.category}
+        <div onClick={() => dispatch(push('dish/detail/' + props.id))}>
+          <Typography className={classes.font} component="p">
+            {props.name}
           </Typography>
         </div>
         <IconButton className={classes.icon} onClick={handleClick}>
-          <MoreVert />
+          <MoreVertIcon />
         </IconButton>
         <Menu anchorEl={anchorEl} keepMounted open={Boolean(anchorEl)} onClose={handleClose}>
           <MenuItem

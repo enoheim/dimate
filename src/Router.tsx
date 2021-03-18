@@ -9,10 +9,10 @@ const Router: React.FC = () => {
     <Switch>
       <Route exact path="/signup" component={SignUp} />
       <Route exact path="/signin" component={SignIn} />
-      <Route exact path="/signin/reset" component={Reset} />
+      <Route exact path="/reset" component={Reset} />
       <Auth>
         <Route exact path="/(/)?" component={DishList} />
-        <Route exact path="/dish/:id" component={DishDetail} />
+        <Route exact path="/dish/detail/:id" component={DishDetail} />
         <Route path="/dish/edit(/:id)?" component={DishEdit} />
       </Auth>
     </Switch>

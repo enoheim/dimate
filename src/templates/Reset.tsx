@@ -1,10 +1,25 @@
-import React, { useState, useCallback } from 'react'
-import { useDispatch } from 'react-redux'
 import { push } from 'connected-react-router'
+import React, { useCallback, useState } from 'react'
+import { useDispatch } from 'react-redux'
+
+import { makeStyles } from '@material-ui/core/styles'
+
 import { PrimaryButton, TextInput } from '../components/UIkit'
 import { resetPassword } from '../reducks/users/operations'
 
+const useStyles = makeStyles((theme) => ({
+  head: {
+    color: theme.palette.secondary.main,
+    fontSize: '32px',
+  },
+  font: {
+    color: theme.palette.secondary.main,
+    fontSize: '16px',
+  },
+}))
+
 const Reset: React.FC = () => {
+  const classes = useStyles()
   const dispatch = useDispatch()
 
   const [email, setEmail] = useState('')
@@ -17,9 +32,12 @@ const Reset: React.FC = () => {
   )
 
   return (
-    <div className="c-section-container">
-      <h2 className="u-text__headline u-text-center">パスワードのリセット</h2>
-      <div className="module-spacer--medium" />
+    <div className="section-container">
+      <div className="spacer-medium" />
+      <h2 className={classes.head}>パスワードリセット</h2>
+      <div className="spacer-small" />
+      <p className={classes.font}>指定のメールアドレスにリセット用のリンクを送信します。</p>
+      <div className="spacer-small" />
       <TextInput
         fullWidth={true}
         label={'メールアドレス'}
@@ -30,12 +48,13 @@ const Reset: React.FC = () => {
         type={'email'}
         onChange={inputEmail}
       />
-      <div className="module-spacer--medium" />
-      <div className="center">
-        <PrimaryButton label={'リセット'} onClick={() => dispatch(resetPassword(email))} />
-        <div className="module-spacer--medium" />
-        <p onClick={() => dispatch(push('/signin'))}>サインイン画面に戻る</p>
-      </div>
+      <div className="spacer-small" />
+      <div className="spacer-small" />
+      <PrimaryButton label={'リセット'} onClick={() => dispatch(resetPassword(email))} />
+      <div className="spacer-small" />
+      <p className={classes.font} onClick={() => dispatch(push('/signin'))}>
+        サインイン画面に戻る！
+      </p>
     </div>
   )
 }

@@ -1,10 +1,25 @@
-import React, { useState, useCallback } from 'react'
-import { useDispatch } from 'react-redux'
 import { push } from 'connected-react-router'
+import React, { useCallback, useState } from 'react'
+import { useDispatch } from 'react-redux'
+
+import { makeStyles } from '@material-ui/core/styles'
+
 import { PrimaryButton, TextInput } from '../components/UIkit'
 import { signUp } from '../reducks/users/operations'
 
+const useStyles = makeStyles((theme) => ({
+  head: {
+    color: theme.palette.secondary.main,
+    fontSize: '32px',
+  },
+  font: {
+    color: theme.palette.secondary.main,
+    fontSize: '16px',
+  },
+}))
+
 const SignUp: React.FC = () => {
+  const classes = useStyles()
   const dispatch = useDispatch()
 
   const [username, setUsername] = useState(''),
@@ -41,9 +56,12 @@ const SignUp: React.FC = () => {
   )
 
   return (
-    <div className="c-section-container">
-      <h2 className="u-text__headline u-text-center">アカウント登録</h2>
-      <div className="module-spacer--medium" />
+    <div className="section-container">
+      <div className="spacer-medium" />
+      <h2 className={classes.head}>アカウント登録</h2>
+      <div className="spacer-small" />
+      <p className={classes.font}>許可されるパスワードは6文字以上の英数字のみです。</p>
+      <div className="spacer-small" />
       <TextInput
         fullWidth={true}
         label={'ユーザー名'}
@@ -84,15 +102,16 @@ const SignUp: React.FC = () => {
         type={'password'}
         onChange={inputConfirmPassword}
       />
-      <div className="module-spacer--medium" />
-      <div className="center">
-        <PrimaryButton
-          label={'アカウント登録'}
-          onClick={() => dispatch(signUp(username, email, password, confirmPassword))}
-        />
-        <div className="module-spacer--medium" />
-        <p onClick={() => dispatch(push('/signin'))}>アカウントをお持ちの方</p>
-      </div>
+      <div className="spacer-small" />
+      <div className="spacer-small" />
+      <PrimaryButton
+        label={'アカウント登録'}
+        onClick={() => dispatch(signUp(username, email, password, confirmPassword))}
+      />
+      <div className="spacer-small" />
+      <p className={classes.font} onClick={() => dispatch(push('/signin'))}>
+        アカウント持ってたわ……
+      </p>
     </div>
   )
 }

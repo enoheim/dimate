@@ -1,18 +1,18 @@
 import React from 'react'
 
 import Button from '@material-ui/core/Button'
-import { makeStyles } from '@material-ui/styles'
+import { makeStyles } from '@material-ui/core/styles'
 
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme) => ({
   button: {
-    backgroundColor: '#00a3af',
-    color: '#ffffff',
+    backgroundColor: theme.palette.primary.main,
+    color: theme.palette.secondary.main,
     fontSize: 16,
     height: 48,
     marginBottom: 16,
     width: 256,
   },
-})
+}))
 
 type Props = {
   label: string

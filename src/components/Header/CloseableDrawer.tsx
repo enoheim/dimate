@@ -9,7 +9,7 @@ import List from '@material-ui/core/List'
 import ListItem from '@material-ui/core/ListItem'
 import ListItemIcon from '@material-ui/core/ListItemIcon'
 import ListItemText from '@material-ui/core/ListItemText'
-import { makeStyles } from '@material-ui/core/styles'
+import { createStyles, makeStyles } from '@material-ui/core/styles'
 import AddCircleIcon from '@material-ui/icons/AddCircle'
 import ExitToAppIcon from '@material-ui/icons/ExitToApp'
 import PersonIcon from '@material-ui/icons/Person'
@@ -19,26 +19,35 @@ import { db } from '../../firebase'
 import { signOut } from '../../reducks/users/operations'
 import { TextInput } from '../UIkit'
 
-const useStyles = makeStyles((theme) => ({
-  drawer: {
-    [theme.breakpoints.up('sm')]: {
-      flexShrink: 0,
+const useStyles = makeStyles((theme) =>
+  createStyles({
+    drawer: {
+      [theme.breakpoints.up('sm')]: {
+        flexShrink: 0,
+        width: 256,
+      },
+    },
+    toolbar: theme.mixins.toolbar,
+    drawerPaper: {
+      backgroundColor: theme.palette.primary.main,
       width: 256,
     },
-  },
-  toolbar: theme.mixins.toolbar,
-  drawerPaper: {
-    width: 256,
-  },
-  searchField: {
-    alignItems: 'center',
-    display: 'flex',
-    marginLeft: 32,
-  },
-}))
+    // searchField: {
+    //   alignItems: 'center',
+    //   display: 'flex',
+    //   marginLeft: 32,
+    // },
+    icon: {
+      color: theme.palette.secondary.main,
+    },
+    font: {
+      color: theme.palette.secondary.main,
+    },
+  })
+)
 
 type Props = {
-  onClose: (arg0: any) => void
+  onClose: (arg0: any, arg1: boolean) => void
   open: boolean
 }
 
@@ -48,22 +57,22 @@ const ClosableDrawer: React.FC<Props> = (props) => {
   const dispatch = useDispatch()
   const [keyword, setKeyword] = useState('')
 
-  const inputKeyword = useCallback(
-    (event) => {
-      setKeyword(event.target.value)
-    },
-    [setKeyword]
-  )
+  // const inputKeyword = useCallback(
+  //   (event) => {
+  //     setKeyword(event.target.value)
+  //   },
+  //   [setKeyword]
+  // )
 
-  const selectMenu = (event: React.MouseEvent<HTMLDivElement>, path: string) => {
+  const selectMenu = (event: any, path: string) => {
     dispatch(push(path))
-    props.onClose(event)
+    props.onClose(event, false)
   }
 
   const [filters, setFilters] = useState([{ func: selectMenu, label: '全て', id: 'all', value: '/' }])
 
   const menus = [
-    { func: selectMenu, label: 'プロフィール', icon: <PersonIcon />, id: 'profile', value: '/user/mypage' },
+    // { func: selectMenu, label: 'プロフィール', icon: <PersonIcon />, id: 'profile', value: '/user/mypage' },
     { func: selectMenu, label: 'レシピ追加', icon: <AddCircleIcon />, id: 'add', value: '/dish/edit' },
   ]
 
@@ -86,14 +95,15 @@ const ClosableDrawer: React.FC<Props> = (props) => {
       <Drawer
         {...container}
         variant="temporary"
-        anchor="right"
+        anchor="left"
         open={props.open}
-        onClose={(event) => props.onClose(event)}
+        onClose={(event) => props.onClose(event, false)}
+        onKeyDown={(event) => props.onClose(event, false)}
         classes={{ paper: classes.drawerPaper }}
         ModalProps={{ keepMounted: true }}
       >
-        <div onKeyDown={(event) => props.onClose(event)}>
-          <div className={classes.searchField}>
+        <div>
+          {/* <div className={classes.searchField}>
             <TextInput
               fullWidth={false}
               label={'レシピ名を入力'}
@@ -108,17 +118,17 @@ const ClosableDrawer: React.FC<Props> = (props) => {
               <SearchIcon />
             </IconButton>
           </div>
-          <Divider />
+          <Divider /> */}
           <List>
             {menus.map((menu) => (
               <ListItem button key={menu.id} onClick={(event) => menu.func(event, menu.value)}>
-                <ListItemIcon>{menu.icon}</ListItemIcon>
+                <ListItemIcon className={classes.icon}>{menu.icon}</ListItemIcon>
                 <ListItemText primary={menu.label} />
               </ListItem>
             ))}
             <ListItem button key="logout" onClick={() => dispatch(signOut())}>
               <ListItemIcon>
-                <ExitToAppIcon />
+                <ExitToAppIcon className={classes.icon} />
               </ListItemIcon>
               <ListItemText primary={'サインアウト'} />
             </ListItem>
@@ -127,7 +137,7 @@ const ClosableDrawer: React.FC<Props> = (props) => {
           <List>
             {filters.map((filter) => (
               <ListItem button key={filter.id} onClick={(event) => filter.func(event, filter.value)}>
-                <ListItemText primary={filter.label} />
+                <ListItemText className={classes.font} primary={filter.label} />
               </ListItem>
             ))}
           </List>

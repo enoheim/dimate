@@ -12,17 +12,10 @@ type Props = {
 
 const ImageSwiper: React.FC<Props> = (props) => {
   const [params] = useState({
-    pagination: {
-      el: '.swiper-pagination',
-      type: 'bullets',
-      clickable: true,
-      dynamicBullets: true,
+    scrollbar: {
+      el: '.swiper-scrollbar',
+      hide: false,
     },
-    navigation: {
-      nextEl: '.swiper-button-next',
-      prevEl: '.swiper-button-prev',
-    },
-    loop: true,
   })
 
   const images = props.images
@@ -30,13 +23,13 @@ const ImageSwiper: React.FC<Props> = (props) => {
   return (
     <Swiper {...params}>
       {images.length === 0 ? (
-        <div className="p-media__thumb">
-          <img src={NoImage} alt="No Image" />
+        <div className="media-thumb">
+          <img src={NoImage} alt="noimage" />
         </div>
       ) : (
         images.map((image) => (
-          <div className="p-media__thumb" key={image.id}>
-            <img src={image.path} alt="料理写真" />
+          <div className="media-thumb" key={image.id}>
+            <img src={image.path} alt="dishimage" />
           </div>
         ))
       )}

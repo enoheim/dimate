@@ -1,19 +1,24 @@
 import React, { useCallback } from 'react'
 
 import IconButton from '@material-ui/core/IconButton'
+import { makeStyles } from '@material-ui/core/styles'
 import AddPhotoAlternateIcon from '@material-ui/icons/AddPhotoAlternate'
-import { makeStyles } from '@material-ui/styles'
 
 import { db, storage } from '../../firebase/index'
 import { ImageProps } from '../../reducks/dishes/types'
 import { ImagePreview } from './index'
 
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme) => ({
   icon: {
+    color: theme.palette.secondary.main,
     height: 48,
     width: 48,
   },
-})
+  font: {
+    color: theme.palette.secondary.main,
+    fontSize: '16px',
+  },
+}))
 
 type Props = {
   images: ImageProps
@@ -47,7 +52,7 @@ const ImageArea: React.FC<Props> = (props) => {
   const uploadImage = useCallback(
     (event) => {
       const file = event.target.files
-      const blob = new Blob(file, { type: 'image/jpeg' })
+      const blob = new Blob(file, { type: 'image' })
 
       const S = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'
       const N = 16
@@ -70,18 +75,18 @@ const ImageArea: React.FC<Props> = (props) => {
 
   return (
     <div>
-      <div className="p-grid__list-images">
+      <div className="list-media">
         {props.images.length > 0 &&
           props.images.map((image) => (
             <ImagePreview delete={deleteImage} id={image.id} path={image.path} key={image.id} />
           ))}
       </div>
-      <div className="u-text-right">
-        <span>写真の登録</span>
+      <div className="text-right">
+        <span className={classes.font}>写真の登録</span>
         <IconButton className={classes.icon}>
           <label>
             <AddPhotoAlternateIcon />
-            <input className="u-display-none" type="file" id="image" onChange={(event) => uploadImage(event)} />
+            <input className="display-none" type="file" id="image" onChange={(event) => uploadImage(event)} />
           </label>
         </IconButton>
       </div>

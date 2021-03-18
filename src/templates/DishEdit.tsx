@@ -2,12 +2,26 @@ import { ImageArea } from 'components/Dishes/'
 import React, { useCallback, useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
 
+import { makeStyles } from '@material-ui/core/styles'
+
 import { PrimaryButton, SelectBox, TextInput } from '../components/UIkit'
 import { db } from '../firebase/index'
 import { saveDish } from '../reducks/dishes/operations'
 import { ArrayProps, ImageProps } from '../reducks/dishes/types'
 
+const useStyles = makeStyles((theme) => ({
+  head: {
+    color: theme.palette.secondary.main,
+    fontSize: '32px',
+  },
+  font: {
+    color: theme.palette.secondary.main,
+    fontSize: '16px',
+  },
+}))
+
 const DishEdit: React.FC = () => {
+  const classes = useStyles()
   const dispatch = useDispatch()
   let id = window.location.pathname.split('/dish/edit')[1]
 
@@ -85,15 +99,16 @@ const DishEdit: React.FC = () => {
   }, [])
 
   return (
-    <section>
-      <h2 className="u-text__headline u-text-center">レシピの追加・編集</h2>
+    <div className="section-container">
+      <div className="spacer-medium" />
+      <h2 className={classes.head}>レシピの追加・編集</h2>
       <div className="c-section-container">
         <ImageArea images={images} pageId={id} setImages={setImages} />
         <TextInput
           fullWidth={true}
           label={'タイトル'}
           multiline={false}
-          required={true}
+          required={false}
           onChange={inputRecipeTitle}
           rows={1}
           value={recipeTitle}
@@ -101,7 +116,7 @@ const DishEdit: React.FC = () => {
         />
         <TextInput
           fullWidth={true}
-          label={'参考URL'}
+          label={'レシピの参考URL'}
           multiline={false}
           required={false}
           onChange={inputRecipeUrl}
@@ -116,13 +131,13 @@ const DishEdit: React.FC = () => {
           multiline={true}
           required={false}
           onChange={inputIngredients}
-          rows={3}
+          rows={15}
           value={ingredients}
           type={'text'}
         />
         <TextInput
           fullWidth={true}
-          label={'説明'}
+          label={'手順'}
           multiline={true}
           required={false}
           onChange={inputDescription}
@@ -130,15 +145,14 @@ const DishEdit: React.FC = () => {
           value={description}
           type={'text'}
         />
-        <div className="module-spacer--medium" />
-        <div className="center">
-          <PrimaryButton
-            label={'レシピの追加・編集'}
-            onClick={() => dispatch(saveDish(category, description, id, images, ingredients, recipeTitle, recipeUrl))}
-          />
-        </div>
+        <div className="spacer-small" />
+        <div className="spacer-small" />
+        <PrimaryButton
+          label={'レシピの追加・編集'}
+          onClick={() => dispatch(saveDish(category, description, id, images, ingredients, recipeTitle, recipeUrl))}
+        />
       </div>
-    </section>
+    </div>
   )
 }
 

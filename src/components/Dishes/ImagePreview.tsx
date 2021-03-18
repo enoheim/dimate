@@ -8,8 +8,8 @@ type Props = {
 
 const ImagePreview: React.FC<Props> = (props) => {
   return (
-    <div className="p-media__thumb" onClick={() => props.delete(props.id)}>
-      <img alt="プレビュー写真" src={props.path} />
+    <div className="media-thumb" onClick={() => props.delete(props.id)}>
+      <img alt="image" src={props.path} />
     </div>
   )
 }

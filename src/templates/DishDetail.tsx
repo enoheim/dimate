@@ -1,19 +1,22 @@
-import React, { useCallback, useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
+import Linkify from 'react-linkify'
 import { useSelector } from 'react-redux'
+
 import { makeStyles } from '@material-ui/core/styles'
+
+import { returnCodeToBr } from '../assets/common'
 import { ImageSwiper } from '../components/Dishes'
 import { db } from '../firebase'
-import { returnCodeToBr } from '../function/common'
 
 const useStyles = makeStyles((theme) => ({
   sliderBox: {
     [theme.breakpoints.down('sm')]: {
-      margin: '0 auto 24px auto',
-      height: 320,
-      width: 320,
+      margin: '40px auto',
+      height: 400,
+      width: 400,
     },
     [theme.breakpoints.up('sm')]: {
-      margin: '0 auto',
+      margin: '40px auto',
       height: 400,
       width: 400,
     },
@@ -21,15 +24,42 @@ const useStyles = makeStyles((theme) => ({
   detail: {
     textAlign: 'left',
     [theme.breakpoints.down('sm')]: {
-      margin: '0 auto 16px auto',
+      margin: '10px 40px',
       height: 'auto',
       width: 320,
     },
     [theme.breakpoints.up('sm')]: {
-      margin: '0 auto',
-      height: 'auto',
-      width: 400,
+      margin: '30px auto',
+      width: 450,
     },
+  },
+  titlefont: {
+    [theme.breakpoints.down('sm')]: {
+      width: '400px',
+    },
+    [theme.breakpoints.up('sm')]: {
+      width: '460px',
+    },
+    color: theme.palette.secondary.main,
+    overflow: 'hidden',
+    fontSize: '30px',
+    textOverflow: 'ellipsis',
+  },
+  url: {
+    [theme.breakpoints.down('sm')]: {
+      width: '400px',
+    },
+    [theme.breakpoints.up('sm')]: {
+      width: '460px',
+    },
+    color: theme.palette.secondary.main,
+    overflow: 'hidden',
+    fontSize: '16px',
+    textOverflow: 'ellipsis',
+  },
+  font: {
+    color: theme.palette.secondary.main,
+    fontSize: '16px',
   },
 }))
 
@@ -37,7 +67,7 @@ const DishDetail: React.FC = () => {
   const classes = useStyles()
   const selector = useSelector((state) => state)
   const path = selector.router.location.pathname
-  const id = path.split('/dish/')[1]
+  const id = path.split('/dish/detail/')[1]
 
   const [dish, setDish] = useState<any>(null)
 
@@ -53,17 +83,21 @@ const DishDetail: React.FC = () => {
   }, [])
 
   return (
-    <section className="c-section-wrapin">
+    <section className="section-wrap">
       {dish && (
-        <div className="p-grid__row">
+        <div className="grid-row">
           <div className={classes.sliderBox}>
             <ImageSwiper images={dish.images} />
           </div>
           <div className={classes.detail}>
-            <h2 className="u-text__headline">{dish.recipeTitle}</h2>
-            <p>{dish.recipeUrl}</p>
-            <div className="module-spacer--extra-small" />
-            <p>{returnCodeToBr(dish.description)}</p>
+            <h2 className={classes.titlefont}>{dish.recipeTitle}</h2>
+            <p className={classes.url}>
+              <Linkify>{dish.recipeUrl}</Linkify>
+            </p>
+            <div className="spacer-extrasmall" />
+            <p className={classes.font}>{returnCodeToBr(dish.ingredients)}</p>
+            <div className="spacer-extrasmall" />
+            <p className={classes.font}>{returnCodeToBr(dish.description)}</p>
           </div>
         </div>
       )}

@@ -1,4 +1,3 @@
-import './assets/reset.css'
 import './assets/style.css'
 
 import React from 'react'
@@ -10,7 +9,7 @@ const App = () => {
   return (
     <>
       <Header />
-      <main className="c-main">
+      <main className="main">
         <Router />
       </main>
     </>

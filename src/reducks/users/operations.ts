@@ -35,7 +35,7 @@ export const listenAuthState = () => {
 export const resetPassword = (email: string) => {
   return async (dispatch: Dispatch) => {
     if (email === '') {
-      alert('必須項目が未入力です')
+      alert('必須項目が未入力です。')
       return false
     } else {
       auth
@@ -54,7 +54,7 @@ export const resetPassword = (email: string) => {
 export const signIn = (email: string, password: string) => {
   return async (dispatch: Dispatch) => {
     if (email === '' || password === '') {
-      alert('必須項目が未入力です')
+      alert('必須項目が未入力です。')
       return false
     }
 
@@ -89,11 +89,11 @@ export const signIn = (email: string, password: string) => {
 export const signUp = (username: string, email: string, password: string, confirmPassword: string) => {
   return async (dispatch: Dispatch) => {
     if (username === '' || email === '' || password === '' || confirmPassword === '') {
-      alert('必須項目が未入力です')
+      alert('必須項目が未入力です。')
       return false
     }
     if (password !== confirmPassword) {
-      alert('パスワードが一致していません')
+      alert('パスワードが一致していません。')
       return false
     }
 
