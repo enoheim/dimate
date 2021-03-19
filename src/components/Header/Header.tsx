@@ -10,16 +10,12 @@ import Logo from '../../assets/img/logo.png'
 import { getIsSignedIn } from '../../reducks/users/selectors'
 import { CloseableDrawer, HeaderMenus } from './index'
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(() => ({
   root: {
     flexGrow: 1,
   },
-  menuBar: {
-    backgroundColor: theme.palette.primary.main,
-  },
-  toolBar: {
-    margin: '0px auto',
-    width: '100%',
+  icon: {
+    margin: '0px 0px 0px auto',
   },
 }))
 
@@ -43,10 +39,14 @@ const Header: React.FC = () => {
 
   return (
     <div className={classes.root}>
-      <AppBar position="fixed" className={classes.menuBar}>
-        <Toolbar className={classes.toolBar}>
-          {isSignedIn && <HeaderMenus handleDrawerToggle={handleDrawerToggle} />}
+      <AppBar position="fixed">
+        <Toolbar>
           <img src={Logo} alt="logo" width="128px" onClick={() => dispatch(push('/'))} />
+          {isSignedIn && (
+            <div className={classes.icon}>
+              <HeaderMenus handleDrawerToggle={handleDrawerToggle} />
+            </div>
+          )}
         </Toolbar>
       </AppBar>
       <CloseableDrawer open={open} onClose={handleDrawerToggle} />

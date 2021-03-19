@@ -20,10 +20,11 @@ export const deleteDish = (id: string) => {
   }
 }
 
-export const fetchDishes = (category: string) => {
+export const fetchDishes = (category: string, uid: string) => {
   return async (dispatch: Dispatch) => {
     let query = dishesRef.orderBy('recipeTitle', 'asc')
-    query = category !== '' ? query.where('category', '==', category) : query
+    query =
+      category !== '' ? query.where('uid', '==', uid).where('category', '==', category) : query.where('uid', '==', uid)
     query.get().then((snapshots) => {
       const dishList: any = []
       snapshots.forEach((snapshot) => {

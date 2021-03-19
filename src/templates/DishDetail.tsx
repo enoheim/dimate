@@ -11,12 +11,12 @@ import { db } from '../firebase'
 const useStyles = makeStyles((theme) => ({
   sliderBox: {
     [theme.breakpoints.down('sm')]: {
-      margin: '40px auto',
+      margin: '20px auto',
       height: 400,
       width: 400,
     },
     [theme.breakpoints.up('sm')]: {
-      margin: '40px auto',
+      margin: '20px auto',
       height: 400,
       width: 400,
     },
@@ -24,41 +24,30 @@ const useStyles = makeStyles((theme) => ({
   detail: {
     textAlign: 'left',
     [theme.breakpoints.down('sm')]: {
-      margin: '10px 40px',
+      margin: '0px 40px',
       height: 'auto',
-      width: 320,
+      width: 400,
     },
     [theme.breakpoints.up('sm')]: {
       margin: '30px auto',
       width: 450,
     },
   },
-  titlefont: {
-    [theme.breakpoints.down('sm')]: {
-      width: '400px',
-    },
-    [theme.breakpoints.up('sm')]: {
-      width: '460px',
-    },
+  titleFont: {
     color: theme.palette.secondary.main,
     overflow: 'hidden',
-    fontSize: '30px',
+    fontSize: '32px',
     textOverflow: 'ellipsis',
   },
-  url: {
-    [theme.breakpoints.down('sm')]: {
-      width: '400px',
-    },
-    [theme.breakpoints.up('sm')]: {
-      width: '460px',
-    },
+  font: {
     color: theme.palette.secondary.main,
     overflow: 'hidden',
     fontSize: '16px',
     textOverflow: 'ellipsis',
   },
-  font: {
+  descriptionFont: {
     color: theme.palette.secondary.main,
+    fontWeight: 'bold',
     fontSize: '16px',
   },
 }))
@@ -90,14 +79,20 @@ const DishDetail: React.FC = () => {
             <ImageSwiper images={dish.images} />
           </div>
           <div className={classes.detail}>
-            <h2 className={classes.titlefont}>{dish.recipeTitle}</h2>
-            <p className={classes.url}>
-              <Linkify>{dish.recipeUrl}</Linkify>
-            </p>
-            <div className="spacer-extrasmall" />
-            <p className={classes.font}>{returnCodeToBr(dish.ingredients)}</p>
-            <div className="spacer-extrasmall" />
-            <p className={classes.font}>{returnCodeToBr(dish.description)}</p>
+            <h2 className={classes.titleFont}>{dish.recipeTitle}</h2>
+            {dish.recipeTitle && <div className="spacer-extrasmall" />}
+            {dish.recipeTitle && <p className={classes.descriptionFont}>参考URL:</p>}
+            {dish.recipeTitle && (
+              <p className={classes.font}>
+                <Linkify>{dish.recipeUrl}</Linkify>
+              </p>
+            )}
+            {dish.ingredients && <div className="spacer-extrasmall" />}
+            {dish.ingredients && <p className={classes.descriptionFont}>材料:</p>}
+            {dish.ingredients && <p className={classes.font}>{returnCodeToBr(dish.ingredients)}</p>}
+            {dish.descriptionFont && <div className="spacer-extrasmall" />}
+            {dish.descriptionFont && <p className={classes.descriptionFont}>説明:</p>}
+            {dish.descriptionFont && <p className={classes.font}>{returnCodeToBr(dish.description)}</p>}
           </div>
         </div>
       )}

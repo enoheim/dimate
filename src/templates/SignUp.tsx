@@ -108,9 +108,9 @@ const SignUp: React.FC = () => {
         label={'アカウント登録'}
         onClick={() => dispatch(signUp(username, email, password, confirmPassword))}
       />
-      <div className="spacer-small" />
+      <div className="spacer-extrasmall" />
       <p className={classes.font} onClick={() => dispatch(push('/signin'))}>
-        アカウント持ってたわ……
+        アカウントを持っている場合
       </p>
     </div>
   )

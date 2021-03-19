@@ -51,9 +51,9 @@ const Reset: React.FC = () => {
       <div className="spacer-small" />
       <div className="spacer-small" />
       <PrimaryButton label={'リセット'} onClick={() => dispatch(resetPassword(email))} />
-      <div className="spacer-small" />
+      <div className="spacer-extrasmall" />
       <p className={classes.font} onClick={() => dispatch(push('/signin'))}>
-        サインイン画面に戻る！
+        サインイン画面に戻る
       </p>
     </div>
   )

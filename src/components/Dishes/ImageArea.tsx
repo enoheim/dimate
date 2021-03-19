@@ -82,7 +82,7 @@ const ImageArea: React.FC<Props> = (props) => {
           ))}
       </div>
       <div className="text-right">
-        <span className={classes.font}>写真の登録</span>
+        <span className={classes.font}>写真の登録 (推奨 1:1)</span>
         <IconButton className={classes.icon}>
           <label>
             <AddPhotoAlternateIcon />

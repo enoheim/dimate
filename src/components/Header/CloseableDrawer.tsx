@@ -24,13 +24,14 @@ const useStyles = makeStyles((theme) =>
     drawer: {
       [theme.breakpoints.up('sm')]: {
         flexShrink: 0,
-        width: 256,
+        width: 230,
       },
     },
     toolbar: theme.mixins.toolbar,
     drawerPaper: {
       backgroundColor: theme.palette.primary.main,
-      width: 256,
+      color: theme.palette.secondary.main,
+      width: 230,
     },
     // searchField: {
     //   alignItems: 'center',
@@ -55,7 +56,7 @@ const ClosableDrawer: React.FC<Props> = (props) => {
   const classes = useStyles()
   const container: any = { props }
   const dispatch = useDispatch()
-  const [keyword, setKeyword] = useState('')
+  // const [keyword, setKeyword] = useState('')
 
   // const inputKeyword = useCallback(
   //   (event) => {
@@ -95,7 +96,7 @@ const ClosableDrawer: React.FC<Props> = (props) => {
       <Drawer
         {...container}
         variant="temporary"
-        anchor="left"
+        anchor="right"
         open={props.open}
         onClose={(event) => props.onClose(event, false)}
         onKeyDown={(event) => props.onClose(event, false)}

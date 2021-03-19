@@ -103,7 +103,7 @@ const DishEdit: React.FC = () => {
 
   return (
     <div className="section-container">
-      <div className="spacer-medium" />
+      <div className="spacer-small" />
       <h2 className={classes.head}>レシピの編集</h2>
       <div className="c-section-container">
         <ImageArea images={images} pageId={id} setImages={setImages} />
@@ -119,7 +119,7 @@ const DishEdit: React.FC = () => {
         />
         <TextInput
           fullWidth={true}
-          label={'レシピの参考URL'}
+          label={'参考URL'}
           multiline={false}
           required={false}
           onChange={inputRecipeUrl}

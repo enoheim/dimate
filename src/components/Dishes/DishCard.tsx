@@ -24,6 +24,10 @@ const useStyles = makeStyles((theme) => ({
     },
     [theme.breakpoints.up('sm')]: {
       margin: 8,
+      width: 'calc(50% - 16px)',
+    },
+    [theme.breakpoints.up('md')]: {
+      margin: 8,
       width: 'calc(33.3333% - 16px)',
     },
   },
@@ -35,10 +39,10 @@ const useStyles = makeStyles((theme) => ({
   content: {
     backgroundColor: theme.palette.primary.main,
     display: 'flex',
-    padding: '8px 8px',
+    padding: '4px 8px',
     textAlign: 'left',
     '&:last-child': {
-      paddingBottom: '8px',
+      paddingBottom: '4px',
     },
   },
   icon: {
@@ -50,7 +54,10 @@ const useStyles = makeStyles((theme) => ({
       width: '400px',
     },
     [theme.breakpoints.up('sm')]: {
-      width: '130px',
+      width: '210px',
+    },
+    [theme.breakpoints.up('md')]: {
+      width: '240px',
     },
     color: theme.palette.secondary.main,
     overflow: 'hidden',
@@ -58,6 +65,9 @@ const useStyles = makeStyles((theme) => ({
     fontSize: '16px',
     textOverflow: 'ellipsis',
     lineHeight: '46px',
+  },
+  menu: {
+    color: theme.palette.secondary.main,
   },
 }))
 
@@ -102,6 +112,7 @@ const DishCard: React.FC<Props> = (props) => {
         </IconButton>
         <Menu anchorEl={anchorEl} keepMounted open={Boolean(anchorEl)} onClose={handleClose}>
           <MenuItem
+            className={classes.menu}
             onClick={() => {
               dispatch(push('/dish/edit/' + props.id))
               handleClose()
@@ -110,6 +121,7 @@ const DishCard: React.FC<Props> = (props) => {
             編集
           </MenuItem>
           <MenuItem
+            className={classes.menu}
             onClick={() => {
               dispatch(deleteDish(props.id))
               handleClose()

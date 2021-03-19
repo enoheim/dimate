@@ -44,7 +44,7 @@ const SignIn: React.FC = () => {
       <div className="spacer-medium" />
       <h2 className={classes.head}>dimateへようこそ！</h2>
       <div className="spacer-small" />
-      <p className={classes.font}>dimateでは各媒体のレシピを登録し、まとめて管理出来ます。</p>
+      <p className={classes.font}>dimateではあなたのレシピを登録し、まとめて管理出来ます。</p>
       <p className={classes.font}>あなたの自炊生活をより豊かにしてみませんか？</p>
       <div className="spacer-small" />
       <TextInput
@@ -72,10 +72,10 @@ const SignIn: React.FC = () => {
       <PrimaryButton label={'サインイン'} onClick={() => dispatch(signIn(email, password))} />
       <div className="spacer-extrasmall" />
       <p className={classes.font} onClick={() => dispatch(push('/signup'))}>
-        アカウント登録はこちらから！
+        アカウント登録はこちら
       </p>
       <p className={classes.font} onClick={() => dispatch(push('/reset'))}>
-        パスワードを忘れた……
+        パスワードを忘れた場合
       </p>
     </div>
   )

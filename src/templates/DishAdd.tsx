@@ -83,7 +83,7 @@ const DishAdd: React.FC = () => {
 
   return (
     <div className="section-container">
-      <div className="spacer-medium" />
+      <div className="spacer-small" />
       <h2 className={classes.head}>レシピの追加</h2>
       <div className="c-section-container">
         <ImageArea images={images} pageId={id} setImages={setImages} />
