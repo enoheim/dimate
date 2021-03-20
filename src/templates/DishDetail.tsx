@@ -12,8 +12,8 @@ const useStyles = makeStyles((theme) => ({
   sliderBox: {
     [theme.breakpoints.down('sm')]: {
       margin: '20px auto',
-      height: 400,
-      width: 400,
+      height: 320,
+      width: 320,
     },
     [theme.breakpoints.up('sm')]: {
       margin: '20px auto',
@@ -24,9 +24,9 @@ const useStyles = makeStyles((theme) => ({
   detail: {
     textAlign: 'left',
     [theme.breakpoints.down('sm')]: {
-      margin: '0px 40px',
+      margin: '0px 30px',
       height: 'auto',
-      width: 400,
+      width: 320,
     },
     [theme.breakpoints.up('sm')]: {
       margin: '30px auto',
@@ -42,13 +42,11 @@ const useStyles = makeStyles((theme) => ({
   font: {
     color: theme.palette.secondary.main,
     overflow: 'hidden',
-    fontSize: '16px',
     textOverflow: 'ellipsis',
   },
   descriptionFont: {
     color: theme.palette.secondary.main,
     fontWeight: 'bold',
-    fontSize: '16px',
   },
 }))
 
