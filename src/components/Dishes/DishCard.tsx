@@ -51,7 +51,7 @@ const useStyles = makeStyles((theme) => ({
   },
   font: {
     [theme.breakpoints.down('sm')]: {
-      width: '400px',
+      width: '300px',
     },
     [theme.breakpoints.up('sm')]: {
       width: '210px',

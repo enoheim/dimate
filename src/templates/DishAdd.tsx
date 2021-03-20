@@ -99,7 +99,7 @@ const DishAdd: React.FC = () => {
         />
         <TextInput
           fullWidth={true}
-          label={'レシピの参考URL'}
+          label={'参考URL'}
           multiline={false}
           required={false}
           onChange={inputRecipeUrl}
@@ -120,7 +120,7 @@ const DishAdd: React.FC = () => {
         />
         <TextInput
           fullWidth={true}
-          label={'手順'}
+          label={'説明'}
           multiline={true}
           required={false}
           onChange={inputDescription}

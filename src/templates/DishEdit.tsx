@@ -16,7 +16,6 @@ const useStyles = makeStyles((theme) => ({
   },
   font: {
     color: theme.palette.secondary.main,
-    fontSize: '16px',
   },
 }))
 
@@ -140,7 +139,7 @@ const DishEdit: React.FC = () => {
         />
         <TextInput
           fullWidth={true}
-          label={'手順'}
+          label={'説明'}
           multiline={true}
           required={false}
           onChange={inputDescription}
