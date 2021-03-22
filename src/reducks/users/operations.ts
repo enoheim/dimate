@@ -1,12 +1,13 @@
 import { push } from 'connected-react-router'
+import firebase from 'firebase/app'
 import { Dispatch } from 'redux'
 
-import { auth, db, FirebaseTimestamp } from '../../firebase'
+import { Auth, db, FirebaseTimestamp } from '../../firebase'
 import { signInAction, signOutAction } from './actions'
 
 export const listenAuthState = () => {
   return async (dispatch: Dispatch) => {
-    return auth.onAuthStateChanged((user) => {
+    return Auth.onAuthStateChanged((user) => {
       if (user) {
         const uid = user.uid
 
@@ -38,8 +39,7 @@ export const resetPassword = (email: string) => {
       alert('必須項目が未入力です。')
       return false
     } else {
-      auth
-        .sendPasswordResetEmail(email)
+      Auth.sendPasswordResetEmail(email)
         .then(() => {
           alert('パスワードリセット用のメールを送信しました。')
           dispatch(push('/signin'))
@@ -58,7 +58,7 @@ export const signIn = (email: string, password: string) => {
       return false
     }
 
-    return auth.signInWithEmailAndPassword(email, password).then((result) => {
+    return Auth.signInWithEmailAndPassword(email, password).then((result) => {
       const user = result.user
 
       if (user) {
@@ -86,6 +86,18 @@ export const signIn = (email: string, password: string) => {
   }
 }
 
+export const signInAnonymously = () => {
+  return async (dispatch: Dispatch) => {
+    Auth.signInAnonymously()
+      .then(() => {
+        dispatch(push('/'))
+      })
+      .catch(() => {
+        alert('ゲストログインに失敗しました。')
+      })
+  }
+}
+
 export const signUp = (username: string, email: string, password: string, confirmPassword: string) => {
   return async (dispatch: Dispatch) => {
     if (username === '' || email === '' || password === '' || confirmPassword === '') {
@@ -97,7 +109,7 @@ export const signUp = (username: string, email: string, password: string, confir
       return false
     }
 
-    return auth.createUserWithEmailAndPassword(email, password).then((result) => {
+    return Auth.createUserWithEmailAndPassword(email, password).then((result) => {
       const user = result.user
 
       if (user) {
@@ -124,9 +136,44 @@ export const signUp = (username: string, email: string, password: string, confir
   }
 }
 
+export const signUpAnon = (username: string, email: string, password: string, confirmPassword: string) => {
+  return async (dispatch: Dispatch) => {
+    if (username === '' || email === '' || password === '' || confirmPassword === '') {
+      alert('必須項目が未入力です。')
+      return false
+    }
+    if (password !== confirmPassword) {
+      alert('パスワードが一致していません。')
+      return false
+    }
+
+    const credential = firebase.auth.EmailAuthProvider.credential(email, password)
+    return Auth.currentUser?.linkWithCredential(credential).then(() => {
+      const uid = Auth.currentUser?.uid
+      const timestamp = FirebaseTimestamp.now()
+
+      const userInitialData = {
+        created_at: timestamp,
+        email: email,
+        role: 'customer',
+        uid: uid,
+        updated_at: timestamp,
+        username: username,
+      }
+
+      db.collection('users')
+        .doc(uid)
+        .set(userInitialData)
+        .then(() => {
+          dispatch(push('/'))
+        })
+    })
+  }
+}
+
 export const signOut = () => {
   return async (dispatsh: Dispatch) => {
-    auth.signOut().then(() => {
+    Auth.signOut().then(() => {
       dispatsh(signOutAction())
       dispatsh(push('/signin'))
     })

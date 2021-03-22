@@ -78,9 +78,9 @@ const DishDetail: React.FC = () => {
           </div>
           <div className={classes.detail}>
             <h2 className={classes.titleFont}>{dish.recipeTitle}</h2>
-            {dish.recipeTitle && <div className="spacer-extrasmall" />}
-            {dish.recipeTitle && <p className={classes.descriptionFont}>参考URL:</p>}
-            {dish.recipeTitle && (
+            {dish.recipeUrl && <div className="spacer-extrasmall" />}
+            {dish.recipeUrl && <p className={classes.descriptionFont}>参考URL:</p>}
+            {dish.recipeUrl && (
               <p className={classes.font}>
                 <Linkify>{dish.recipeUrl}</Linkify>
               </p>
@@ -88,9 +88,9 @@ const DishDetail: React.FC = () => {
             {dish.ingredients && <div className="spacer-extrasmall" />}
             {dish.ingredients && <p className={classes.descriptionFont}>材料:</p>}
             {dish.ingredients && <p className={classes.font}>{returnCodeToBr(dish.ingredients)}</p>}
-            {dish.descriptionFont && <div className="spacer-extrasmall" />}
-            {dish.descriptionFont && <p className={classes.descriptionFont}>説明:</p>}
-            {dish.descriptionFont && <p className={classes.font}>{returnCodeToBr(dish.description)}</p>}
+            {dish.description && <div className="spacer-extrasmall" />}
+            {dish.description && <p className={classes.descriptionFont}>説明:</p>}
+            {dish.description && <p className={classes.font}>{returnCodeToBr(dish.description)}</p>}
           </div>
         </div>
       )}

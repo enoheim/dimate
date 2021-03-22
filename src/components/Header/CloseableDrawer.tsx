@@ -1,6 +1,6 @@
 import { push } from 'connected-react-router'
 import React, { useCallback, useEffect, useState } from 'react'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 
 import Divider from '@material-ui/core/Divider'
 import Drawer from '@material-ui/core/Drawer'
@@ -10,6 +10,7 @@ import ListItem from '@material-ui/core/ListItem'
 import ListItemIcon from '@material-ui/core/ListItemIcon'
 import ListItemText from '@material-ui/core/ListItemText'
 import { createStyles, makeStyles } from '@material-ui/core/styles'
+import AccountCircleIcon from '@material-ui/icons/AccountCircle'
 import AddCircleIcon from '@material-ui/icons/AddCircle'
 import ExitToAppIcon from '@material-ui/icons/ExitToApp'
 import PersonIcon from '@material-ui/icons/Person'
@@ -17,6 +18,7 @@ import SearchIcon from '@material-ui/icons/Search'
 
 import { db } from '../../firebase'
 import { signOut } from '../../reducks/users/operations'
+import { getUserRole } from '../../reducks/users/selectors'
 import { TextInput } from '../UIkit'
 
 const useStyles = makeStyles((theme) =>
@@ -56,6 +58,9 @@ const ClosableDrawer: React.FC<Props> = (props) => {
   const classes = useStyles()
   const container: any = { props }
   const dispatch = useDispatch()
+  const selector = useSelector((state) => state)
+  const userRole = getUserRole(selector)
+
   // const [keyword, setKeyword] = useState('')
 
   // const inputKeyword = useCallback(
@@ -66,8 +71,8 @@ const ClosableDrawer: React.FC<Props> = (props) => {
   // )
 
   const selectMenu = (event: any, path: string) => {
-    dispatch(push(path))
     props.onClose(event, false)
+    dispatch(push(path))
   }
 
   const [filters, setFilters] = useState([{ func: selectMenu, label: '全て', id: 'all', value: '/' }])
@@ -127,6 +132,14 @@ const ClosableDrawer: React.FC<Props> = (props) => {
                 <ListItemText primary={menu.label} />
               </ListItem>
             ))}
+            {userRole !== 'customer' && (
+              <ListItem button key="signup" onClick={(event) => selectMenu(event, '/anon/signup')}>
+                <ListItemIcon>
+                  <AccountCircleIcon className={classes.icon} />
+                </ListItemIcon>
+                <ListItemText primary={'アカウント登録'} />
+              </ListItem>
+            )}
             <ListItem button key="logout" onClick={() => dispatch(signOut())}>
               <ListItemIcon>
                 <ExitToAppIcon className={classes.icon} />

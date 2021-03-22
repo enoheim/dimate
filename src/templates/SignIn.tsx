@@ -5,7 +5,7 @@ import { useDispatch } from 'react-redux'
 import { makeStyles } from '@material-ui/core/styles'
 
 import { PrimaryButton, TextInput } from '../components/UIkit'
-import { signIn } from '../reducks/users/operations'
+import { signIn, signInAnonymously } from '../reducks/users/operations'
 
 const useStyles = makeStyles((theme) => ({
   head: {
@@ -14,7 +14,6 @@ const useStyles = makeStyles((theme) => ({
   },
   font: {
     color: theme.palette.secondary.main,
-    fontSize: '16px',
   },
 }))
 
@@ -70,6 +69,8 @@ const SignIn: React.FC = () => {
       <div className="spacer-small" />
       <div className="spacer-small" />
       <PrimaryButton label={'サインイン'} onClick={() => dispatch(signIn(email, password))} />
+      <div className="spacer-extrasmall" />
+      <PrimaryButton label={'ゲストサインイン'} onClick={() => dispatch(signInAnonymously())} />
       <div className="spacer-extrasmall" />
       <p className={classes.font} onClick={() => dispatch(push('/signup'))}>
         アカウント登録はこちら
