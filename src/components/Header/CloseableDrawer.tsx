@@ -4,7 +4,6 @@ import { useDispatch, useSelector } from 'react-redux'
 
 import Divider from '@material-ui/core/Divider'
 import Drawer from '@material-ui/core/Drawer'
-import IconButton from '@material-ui/core/IconButton'
 import List from '@material-ui/core/List'
 import ListItem from '@material-ui/core/ListItem'
 import ListItemIcon from '@material-ui/core/ListItemIcon'
@@ -13,13 +12,10 @@ import { createStyles, makeStyles } from '@material-ui/core/styles'
 import AccountCircleIcon from '@material-ui/icons/AccountCircle'
 import AddCircleIcon from '@material-ui/icons/AddCircle'
 import ExitToAppIcon from '@material-ui/icons/ExitToApp'
-import PersonIcon from '@material-ui/icons/Person'
-import SearchIcon from '@material-ui/icons/Search'
 
 import { db } from '../../firebase'
 import { signOut } from '../../reducks/users/operations'
 import { getUserRole } from '../../reducks/users/selectors'
-import { TextInput } from '../UIkit'
 
 const useStyles = makeStyles((theme) =>
   createStyles({
@@ -35,11 +31,6 @@ const useStyles = makeStyles((theme) =>
       color: theme.palette.secondary.main,
       width: 230,
     },
-    // searchField: {
-    //   alignItems: 'center',
-    //   display: 'flex',
-    //   marginLeft: 32,
-    // },
     icon: {
       color: theme.palette.secondary.main,
     },
@@ -56,19 +47,9 @@ type Props = {
 
 const ClosableDrawer: React.FC<Props> = (props) => {
   const classes = useStyles()
-  const container: any = { props }
   const dispatch = useDispatch()
   const selector = useSelector((state) => state)
   const userRole = getUserRole(selector)
-
-  // const [keyword, setKeyword] = useState('')
-
-  // const inputKeyword = useCallback(
-  //   (event) => {
-  //     setKeyword(event.target.value)
-  //   },
-  //   [setKeyword]
-  // )
 
   const selectMenu = (event: any, path: string) => {
     props.onClose(event, false)
@@ -77,10 +58,12 @@ const ClosableDrawer: React.FC<Props> = (props) => {
 
   const [filters, setFilters] = useState([{ func: selectMenu, label: '全て', id: 'all', value: '/' }])
 
-  const menus = [
-    // { func: selectMenu, label: 'プロフィール', icon: <PersonIcon />, id: 'profile', value: '/user/mypage' },
-    { func: selectMenu, label: 'レシピ追加', icon: <AddCircleIcon />, id: 'add', value: '/dish/add' },
-  ]
+  const menus = [{ func: selectMenu, label: 'レシピ追加', icon: <AddCircleIcon />, id: 'add', value: '/dish/add' }]
+
+  const selectSignOut = (event: any) => {
+    props.onClose(event, false)
+    dispatch(signOut())
+  }
 
   useEffect(() => {
     db.collection('categories')
@@ -99,32 +82,15 @@ const ClosableDrawer: React.FC<Props> = (props) => {
   return (
     <nav className={classes.drawer}>
       <Drawer
-        {...container}
         variant="temporary"
         anchor="right"
+        classes={{ paper: classes.drawerPaper }}
         open={props.open}
         onClose={(event) => props.onClose(event, false)}
         onKeyDown={(event) => props.onClose(event, false)}
-        classes={{ paper: classes.drawerPaper }}
         ModalProps={{ keepMounted: true }}
       >
         <div>
-          {/* <div className={classes.searchField}>
-            <TextInput
-              fullWidth={false}
-              label={'レシピ名を入力'}
-              multiline={false}
-              onChange={inputKeyword}
-              required={false}
-              rows={1}
-              value={keyword}
-              type={'text'}
-            />
-            <IconButton>
-              <SearchIcon />
-            </IconButton>
-          </div>
-          <Divider /> */}
           <List>
             {menus.map((menu) => (
               <ListItem button key={menu.id} onClick={(event) => menu.func(event, menu.value)}>
@@ -140,7 +106,7 @@ const ClosableDrawer: React.FC<Props> = (props) => {
                 <ListItemText primary={'アカウント登録'} />
               </ListItem>
             )}
-            <ListItem button key="logout" onClick={() => dispatch(signOut())}>
+            <ListItem button key="logout" onClick={(event) => selectSignOut(event)}>
               <ListItemIcon>
                 <ExitToAppIcon className={classes.icon} />
               </ListItemIcon>

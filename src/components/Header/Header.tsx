@@ -5,16 +5,18 @@ import { useDispatch, useSelector } from 'react-redux'
 import AppBar from '@material-ui/core/AppBar'
 import { makeStyles } from '@material-ui/core/styles'
 import Toolbar from '@material-ui/core/Toolbar'
+import MenuIcon from '@material-ui/icons/Menu'
 
 import Logo from '../../assets/img/logo.png'
 import { getIsSignedIn } from '../../reducks/users/selectors'
-import { CloseableDrawer, HeaderMenus } from './index'
+import { CloseableDrawer } from './index'
 
-const useStyles = makeStyles(() => ({
+const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
   },
   icon: {
+    color: theme.palette.secondary.main,
     margin: '0px 0px 0px auto',
   },
 }))
@@ -42,11 +44,7 @@ const Header: React.FC = () => {
       <AppBar position="fixed">
         <Toolbar>
           <img src={Logo} alt="logo" width="128px" onClick={() => dispatch(push('/'))} />
-          {isSignedIn && (
-            <div className={classes.icon}>
-              <HeaderMenus handleDrawerToggle={handleDrawerToggle} />
-            </div>
-          )}
+          {isSignedIn && <MenuIcon className={classes.icon} onClick={(event) => handleDrawerToggle(event, true)} />}
         </Toolbar>
       </AppBar>
       <CloseableDrawer open={open} onClose={handleDrawerToggle} />
