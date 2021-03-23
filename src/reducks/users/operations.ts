@@ -2,7 +2,7 @@ import { push } from 'connected-react-router'
 import firebase from 'firebase/app'
 import { Dispatch } from 'redux'
 
-import { Auth, db, FirebaseTimestamp } from '../../firebase'
+import { Auth, db, FirebaseTimestamp, storage } from '../../firebase'
 import { signInAction, signOutAction } from './actions'
 
 export const listenAuthState = () => {
@@ -185,8 +185,16 @@ export const deleteUser = () => {
   return async (dispatsh: Dispatch) => {
     const user = Auth.currentUser
     const uid = Auth.currentUser?.uid
-    const usersRef = db.collection('users')
     const dishesRef = db.collection('dishes')
+    const imageRef = storage.ref(`${uid}/images`)
+    const usersRef = db.collection('users')
+
+    await imageRef.listAll().then((listResults) => {
+      const promises = listResults.items.map((item) => {
+        return item.delete()
+      })
+      Promise.all(promises)
+    })
 
     let query = await dishesRef.where('uid', '==', uid).get()
     query.docs.forEach(async (doc) => {

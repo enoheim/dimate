@@ -1,4 +1,5 @@
 import React, { useCallback } from 'react'
+import { useSelector } from 'react-redux'
 
 import IconButton from '@material-ui/core/IconButton'
 import { makeStyles } from '@material-ui/core/styles'
@@ -6,6 +7,7 @@ import AddPhotoAlternateIcon from '@material-ui/icons/AddPhotoAlternate'
 
 import { db, storage } from '../../firebase/index'
 import { ImageProps } from '../../reducks/dishes/types'
+import { getUserId } from '../../reducks/users/selectors'
 import { ImagePreview } from './index'
 
 const useStyles = makeStyles((theme) => ({
@@ -28,6 +30,8 @@ type Props = {
 
 const ImageArea: React.FC<Props> = (props) => {
   const classes = useStyles()
+  const selector = useSelector((state) => state)
+  const uid = getUserId(selector)
 
   const deleteImage = useCallback(
     async (id) => {
@@ -43,7 +47,7 @@ const ImageArea: React.FC<Props> = (props) => {
             images: newImages,
           })
         }
-        return storage.ref('images').child(id).delete()
+        return storage.ref(`${uid}/images`).child(id).delete()
       }
     },
     [props.images]
@@ -60,7 +64,7 @@ const ImageArea: React.FC<Props> = (props) => {
         .map((n) => S[n % S.length])
         .join('')
 
-      const uploadRef = storage.ref('images').child(fileName)
+      const uploadRef = storage.ref(`${uid}/images`).child(fileName)
       const uploadTask = uploadRef.put(blob)
 
       uploadTask.then(() => {
@@ -82,7 +86,7 @@ const ImageArea: React.FC<Props> = (props) => {
           ))}
       </div>
       <div className="text-right">
-        <span className={classes.font}>写真の登録 (推奨 1:1)</span>
+        <span className={classes.font}>写真の登録 (推奨比率 1:1)</span>
         <IconButton className={classes.icon}>
           <label>
             <AddPhotoAlternateIcon />
