@@ -12,9 +12,10 @@ import { createStyles, makeStyles } from '@material-ui/core/styles'
 import AccountCircleIcon from '@material-ui/icons/AccountCircle'
 import AddCircleIcon from '@material-ui/icons/AddCircle'
 import ExitToAppIcon from '@material-ui/icons/ExitToApp'
+import RemoveCircleIcon from '@material-ui/icons/RemoveCircle'
 
 import { db } from '../../firebase'
-import { signOut } from '../../reducks/users/operations'
+import { deleteUser, signOut } from '../../reducks/users/operations'
 import { getUserRole } from '../../reducks/users/selectors'
 
 const useStyles = makeStyles((theme) =>
@@ -59,6 +60,11 @@ const ClosableDrawer: React.FC<Props> = (props) => {
   const [filters, setFilters] = useState([{ func: selectMenu, label: '全て', id: 'all', value: '/' }])
 
   const menus = [{ func: selectMenu, label: 'レシピ追加', icon: <AddCircleIcon />, id: 'add', value: '/dish/add' }]
+
+  const selectDeleteUser = (event: any) => {
+    props.onClose(event, false)
+    dispatch(deleteUser())
+  }
 
   const selectSignOut = (event: any) => {
     props.onClose(event, false)
@@ -106,6 +112,12 @@ const ClosableDrawer: React.FC<Props> = (props) => {
                 <ListItemText primary={'アカウント登録'} />
               </ListItem>
             )}
+            <ListItem button key="deleteuser" onClick={(event) => selectDeleteUser(event)}>
+              <ListItemIcon>
+                <RemoveCircleIcon className={classes.icon} />
+              </ListItemIcon>
+              <ListItemText primary={'アカウント削除'} />
+            </ListItem>
             <ListItem button key="logout" onClick={(event) => selectSignOut(event)}>
               <ListItemIcon>
                 <ExitToAppIcon className={classes.icon} />

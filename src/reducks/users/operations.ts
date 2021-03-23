@@ -87,9 +87,10 @@ export const signIn = (email: string, password: string) => {
 }
 
 export const signInAnonymously = () => {
-  return async (dispatch: Dispatch) => {
+  return (dispatch: Dispatch) => {
     Auth.signInAnonymously()
-      .then(() => {
+      .then(async () => {
+        await Auth.setPersistence(firebase.auth.Auth.Persistence.SESSION)
         dispatch(push('/'))
       })
       .catch(() => {
@@ -177,5 +178,34 @@ export const signOut = () => {
       dispatsh(signOutAction())
       dispatsh(push('/signin'))
     })
+  }
+}
+
+export const deleteUser = () => {
+  return async (dispatsh: Dispatch) => {
+    const user = Auth.currentUser
+    const uid = Auth.currentUser?.uid
+    const usersRef = db.collection('users')
+    const dishesRef = db.collection('dishes')
+
+    let query = await dishesRef.where('uid', '==', uid).get()
+    query.docs.forEach(async (doc) => {
+      await doc.ref.delete()
+    })
+
+    query = await usersRef.where('uid', '==', uid).get()
+    query.docs.forEach(async (doc) => {
+      await doc.ref.delete()
+    })
+
+    user
+      ?.delete()
+      .then(async () => {
+        await dispatsh(push('/signin'))
+        location.reload()
+      })
+      .catch(() => {
+        alert('アカウント削除に失敗しました。')
+      })
   }
 }
