@@ -83,7 +83,10 @@ const DishDetail: React.FC = () => {
             <ImageSwiper images={dish.images} />
           </div>
           <div className={classes.detail}>
-            <h2 className={classes.titleFont}>{dish.recipeTitle}</h2>
+            <h2 className={classes.titleFont}>
+              {dish.recipeTitle}
+              {!dish.recipeTitle && 'No title'}
+            </h2>
             {dish.recipeUrl && <div className="spacer-extrasmall" />}
             {dish.recipeUrl && <p className={classes.descriptionFont}>参考URL:</p>}
             {dish.recipeUrl && (

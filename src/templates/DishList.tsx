@@ -23,7 +23,17 @@ const DishList: React.FC = () => {
     <section className="section-wrap">
       <div className="grid-row">
         {dishes.length > 0 &&
-          dishes.map((dish) => <DishCard id={dish.id} images={dish.images} key={dish.id} name={dish.recipeTitle} />)}
+          dishes.map((dish) => (
+            <DishCard
+              description={dish.description}
+              id={dish.id}
+              images={dish.images}
+              ingredients={dish.ingredients}
+              key={dish.id}
+              title={dish.recipeTitle}
+              url={dish.recipeUrl}
+            />
+          ))}
       </div>
     </section>
   )

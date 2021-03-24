@@ -152,9 +152,10 @@ export const signInAnonymously = () => {
 export const signOut = () => {
   return async (dispatsh: Dispatch) => {
     Auth.signOut()
-      .then(() => {
+      .then(async () => {
         dispatsh(signOutAction())
-        dispatsh(push('/signin'))
+        await dispatsh(push('/signin'))
+        location.reload()
       })
       .catch((error) => {
         alert('サインアウトに失敗しました。')

@@ -1,17 +1,23 @@
+import clsx from 'clsx'
 import { push } from 'connected-react-router'
 import React, { useState } from 'react'
+import Linkify from 'react-linkify'
 import { useDispatch, useSelector } from 'react-redux'
 
 import Card from '@material-ui/core/Card'
+import CardActions from '@material-ui/core/CardActions'
 import CardContent from '@material-ui/core/CardContent'
 import CardMedia from '@material-ui/core/CardMedia'
+import Collapse from '@material-ui/core/Collapse'
 import IconButton from '@material-ui/core/IconButton'
 import Menu from '@material-ui/core/Menu'
 import MenuItem from '@material-ui/core/MenuItem'
 import { makeStyles } from '@material-ui/core/styles'
 import Typography from '@material-ui/core/Typography'
-import MoreVertIcon from '@material-ui/icons/MoreVert'
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
+import SettingsIcon from '@material-ui/icons/Settings'
 
+import { returnCodeToBr } from '../../assets/common'
 import NoImage from '../../assets/img/no_image.png'
 import { deleteDish } from '../../reducks/dishes/operations'
 import { ImageProps } from '../../reducks/dishes/types'
@@ -31,50 +37,76 @@ const useStyles = makeStyles((theme) => ({
       margin: 8,
       width: 'calc(33.3333% - 16px)',
     },
-  },
-  media: {
     backgroundColor: theme.palette.primary.main,
-    height: 0,
-    paddingTop: '100%',
-  },
-  content: {
-    backgroundColor: theme.palette.primary.main,
-    display: 'flex',
-    padding: '4px 8px',
-    textAlign: 'left',
-    '&:last-child': {
-      paddingBottom: '4px',
-    },
-  },
-  icon: {
     color: theme.palette.secondary.main,
-    marginLeft: 'auto',
   },
   font: {
     [theme.breakpoints.down('sm')]: {
-      width: '280px',
+      width: '300px',
     },
     [theme.breakpoints.up('sm')]: {
-      width: '210px',
+      width: '260px',
     },
-    [theme.breakpoints.up('md')]: {
-      width: '240px',
-    },
-    color: theme.palette.secondary.main,
+    padding: '4px 0px 0px 12px',
+    fontSize: '20px',
+    fontWeight: 'bold',
+    textAlign: 'left',
     overflow: 'hidden',
     whiteSpace: 'nowrap',
     textOverflow: 'ellipsis',
-    lineHeight: '46px',
+    lineHeight: '40px',
+  },
+  media: {
+    paddingTop: '100%',
+  },
+  icon: {
+    color: theme.palette.secondary.main,
   },
   menu: {
     color: theme.palette.secondary.main,
   },
+  expand: {
+    transform: 'rotate(0deg)',
+    marginLeft: 'auto',
+    transition: theme.transitions.create('transform', {
+      duration: theme.transitions.duration.shortest,
+    }),
+  },
+  expandOpen: {
+    transform: 'rotate(180deg)',
+  },
+  content: {
+    [theme.breakpoints.down('sm')]: {
+      width: '300px',
+    },
+    [theme.breakpoints.up('sm')]: {
+      width: '260px',
+    },
+  },
+  typoFont: {
+    [theme.breakpoints.down('sm')]: {
+      fontSize: '16px',
+    },
+    [theme.breakpoints.up('sm')]: {
+      fontSize: '14px',
+    },
+    overflow: 'hidden',
+    textOverflow: 'ellipsis',
+  },
+  more: {
+    [theme.breakpoints.up('sm')]: {
+      display: 'none',
+    },
+  },
 }))
 
 type Props = {
+  description: string
   id: string
   images: ImageProps
-  name: string
+  ingredients: string
+  title: string
+  url: string
 }
 
 const DishCard: React.FC<Props> = (props) => {
@@ -82,6 +114,12 @@ const DishCard: React.FC<Props> = (props) => {
   const dispatch = useDispatch()
   const selector = useSelector((state) => state)
   const uid = getUserId(selector)
+
+  const [expanded, setExpanded] = useState(false)
+
+  const handleExpandClick = () => {
+    setExpanded(!expanded)
+  }
 
   const [anchorEl, setAnchorEl] = useState(null)
 
@@ -97,20 +135,19 @@ const DishCard: React.FC<Props> = (props) => {
 
   return (
     <Card className={classes.root}>
+      <Typography className={classes.font} component="h2" onClick={() => dispatch(push('dish/detail/' + props.id))}>
+        {props.title}
+        {!props.title && 'No title'}
+      </Typography>
       <CardMedia
         className={classes.media}
         image={images[0].path}
         title=""
         onClick={() => dispatch(push('dish/detail/' + props.id))}
       />
-      <CardContent className={classes.content}>
-        <div onClick={() => dispatch(push('dish/detail/' + props.id))}>
-          <Typography className={classes.font} component="p">
-            {props.name}
-          </Typography>
-        </div>
+      <CardActions disableSpacing>
         <IconButton className={classes.icon} onClick={handleClick}>
-          <MoreVertIcon />
+          <SettingsIcon />
         </IconButton>
         <Menu anchorEl={anchorEl} keepMounted open={Boolean(anchorEl)} onClose={handleClose}>
           <MenuItem
@@ -132,7 +169,39 @@ const DishCard: React.FC<Props> = (props) => {
             削除
           </MenuItem>
         </Menu>
-      </CardContent>
+        <IconButton
+          className={clsx(classes.icon, classes.more, classes.expand, {
+            [classes.expandOpen]: expanded,
+          })}
+          onClick={handleExpandClick}
+          aria-expanded={expanded}
+          aria-label="show more"
+        >
+          <ExpandMoreIcon />
+        </IconButton>
+      </CardActions>
+      <Collapse in={expanded} className={classes.more} timeout="auto" unmountOnExit>
+        <CardContent className={classes.content}>
+          {props.url && <Typography className={classes.typoFont}>参考URL:</Typography>}
+          {props.url && (
+            <Typography paragraph className={classes.typoFont}>
+              <Linkify>{props.url}</Linkify>
+            </Typography>
+          )}
+          {props.ingredients && <Typography className={classes.typoFont}>材料:</Typography>}
+          {props.ingredients && (
+            <Typography paragraph className={classes.typoFont}>
+              {returnCodeToBr(props.ingredients)}
+            </Typography>
+          )}
+          {props.description && <Typography className={classes.typoFont}>説明:</Typography>}
+          {props.description && (
+            <Typography paragraph className={classes.typoFont}>
+              {returnCodeToBr(props.description)}
+            </Typography>
+          )}
+        </CardContent>
+      </Collapse>
     </Card>
   )
 }
