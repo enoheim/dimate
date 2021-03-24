@@ -1,6 +1,6 @@
 import { push } from 'connected-react-router'
 import React, { useState } from 'react'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 
 import Card from '@material-ui/core/Card'
 import CardContent from '@material-ui/core/CardContent'
@@ -15,6 +15,7 @@ import MoreVertIcon from '@material-ui/icons/MoreVert'
 import NoImage from '../../assets/img/no_image.png'
 import { deleteDish } from '../../reducks/dishes/operations'
 import { ImageProps } from '../../reducks/dishes/types'
+import { getUserId } from '../../reducks/users/selectors'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -62,7 +63,6 @@ const useStyles = makeStyles((theme) => ({
     color: theme.palette.secondary.main,
     overflow: 'hidden',
     whiteSpace: 'nowrap',
-    fontSize: '16px',
     textOverflow: 'ellipsis',
     lineHeight: '46px',
   },
@@ -80,6 +80,8 @@ type Props = {
 const DishCard: React.FC<Props> = (props) => {
   const classes = useStyles()
   const dispatch = useDispatch()
+  const selector = useSelector((state) => state)
+  const uid = getUserId(selector)
 
   const [anchorEl, setAnchorEl] = useState(null)
 
@@ -123,7 +125,7 @@ const DishCard: React.FC<Props> = (props) => {
           <MenuItem
             className={classes.menu}
             onClick={() => {
-              dispatch(deleteDish(props.id))
+              dispatch(deleteDish(props.id, uid))
               handleClose()
             }}
           >

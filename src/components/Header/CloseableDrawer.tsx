@@ -59,7 +59,7 @@ const ClosableDrawer: React.FC<Props> = (props) => {
 
   const [filters, setFilters] = useState([{ func: selectMenu, label: '全て', id: 'all', value: '/' }])
 
-  const menus = [{ func: selectMenu, label: 'レシピ追加', icon: <AddCircleIcon />, id: 'add', value: '/dish/add' }]
+  const menus = [{ func: selectMenu, label: 'レシピ追加', icon: <AddCircleIcon />, id: 'add', value: '/dish/edit' }]
 
   const selectDeleteUser = (event: any) => {
     props.onClose(event, false)

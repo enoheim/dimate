@@ -18,13 +18,12 @@ const useStyles = makeStyles((theme) => ({
   },
   font: {
     color: theme.palette.secondary.main,
-    fontSize: '16px',
   },
 }))
 
 type Props = {
   images: ImageProps
-  pageId?: string
+  pageId: string
   setImages: (arg0: any) => void
 }
 
@@ -42,7 +41,7 @@ const ImageArea: React.FC<Props> = (props) => {
         const newImages = props.images.filter((image) => image.id !== id)
         props.setImages(newImages)
         if (props.pageId) {
-          const updateRef = db.collection('dishes').doc(props.pageId)
+          const updateRef = db.collection('users').doc(uid).collection('dishes').doc(props.pageId)
           await updateRef.update({
             images: newImages,
           })

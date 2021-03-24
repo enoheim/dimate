@@ -1,4 +1,3 @@
-export { default as DishAdd } from './DishAdd'
 export { default as DishDetail } from './DishDetail'
 export { default as DishEdit } from './DishEdit'
 export { default as DishList } from './DishList'

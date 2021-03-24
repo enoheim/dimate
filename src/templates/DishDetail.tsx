@@ -7,6 +7,7 @@ import { makeStyles } from '@material-ui/core/styles'
 import { returnCodeToBr } from '../assets/common'
 import { ImageSwiper } from '../components/Dishes'
 import { db } from '../firebase'
+import { getUserId } from '../reducks/users/selectors'
 
 const useStyles = makeStyles((theme) => ({
   sliderBox: {
@@ -52,14 +53,19 @@ const useStyles = makeStyles((theme) => ({
 
 const DishDetail: React.FC = () => {
   const classes = useStyles()
+
   const selector = useSelector((state) => state)
+  const uid = getUserId(selector)
+
   const path = selector.router.location.pathname
   const id = path.split('/dish/detail/')[1]
 
   const [dish, setDish] = useState<any>(null)
 
   useEffect(() => {
-    db.collection('dishes')
+    db.collection('users')
+      .doc(uid)
+      .collection('dishes')
       .doc(id)
       .get()
       .then()

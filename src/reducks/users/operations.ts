@@ -185,9 +185,9 @@ export const deleteUser = () => {
   return async (dispatsh: Dispatch) => {
     const user = Auth.currentUser
     const uid = Auth.currentUser?.uid
-    const dishesRef = db.collection('dishes')
+    const dishesRef = db.collection('users').doc(uid).collection('dishes')
     const imageRef = storage.ref(`${uid}/images`)
-    const usersRef = db.collection('users')
+    const usersRef = db.collection('users').doc(uid)
 
     await imageRef.listAll().then((listResults) => {
       const promises = listResults.items.map((item) => {
@@ -196,15 +196,13 @@ export const deleteUser = () => {
       Promise.all(promises)
     })
 
-    let query = await dishesRef.where('uid', '==', uid).get()
-    query.docs.forEach(async (doc) => {
+    const dishQuery = await dishesRef.get()
+    dishQuery.docs.forEach(async (doc) => {
       await doc.ref.delete()
     })
 
-    query = await usersRef.where('uid', '==', uid).get()
-    query.docs.forEach(async (doc) => {
-      await doc.ref.delete()
-    })
+    const userQuery = await usersRef.get()
+    await userQuery.ref.delete()
 
     user
       ?.delete()
