@@ -2,8 +2,45 @@ import { push } from 'connected-react-router'
 import firebase from 'firebase/app'
 import { Dispatch } from 'redux'
 
+import { isValidEmail, isValidRequire } from '../../assets/common'
 import { Auth, db, FirebaseTimestamp, storage } from '../../firebase'
 import { signInAction, signOutAction } from './actions'
+
+export const deleteUser = () => {
+  return async (dispatsh: Dispatch) => {
+    const user = Auth.currentUser
+    const uid = Auth.currentUser?.uid
+    const dishesRef = db.collection('users').doc(uid).collection('dishes')
+    const imageRef = storage.ref(`${uid}/images`)
+    const usersRef = db.collection('users').doc(uid)
+
+    await imageRef.listAll().then((listResults) => {
+      const promises = listResults.items.map((item) => {
+        return item.delete()
+      })
+      Promise.all(promises)
+    })
+
+    const dishQuery = await dishesRef.get()
+    dishQuery.docs.forEach(async (doc) => {
+      await doc.ref.delete()
+    })
+
+    const userQuery = await usersRef.get()
+    await userQuery.ref.delete()
+
+    user
+      ?.delete()
+      .then(async () => {
+        await dispatsh(push('/signin'))
+        location.reload()
+      })
+      .catch((error) => {
+        alert('アカウント削除に失敗しました。')
+        throw new Error(error)
+      })
+  }
+}
 
 export const listenAuthState = () => {
   return async (dispatch: Dispatch) => {
@@ -35,8 +72,8 @@ export const listenAuthState = () => {
 
 export const resetPassword = (email: string) => {
   return async (dispatch: Dispatch) => {
-    if (email === '') {
-      alert('必須項目が未入力です。')
+    if (!isValidEmail(email)) {
+      alert('メールアドレスの形式が不正です。')
       return false
     } else {
       Auth.sendPasswordResetEmail(email)
@@ -53,15 +90,22 @@ export const resetPassword = (email: string) => {
 
 export const signIn = (email: string, password: string) => {
   return async (dispatch: Dispatch) => {
-    if (email === '' || password === '') {
+    if (!isValidRequire(email, password)) {
       alert('必須項目が未入力です。')
       return false
     }
+    if (!isValidEmail(email)) {
+      alert('メールアドレスの形式が不正です。')
+      return false
+    }
 
-    return Auth.signInWithEmailAndPassword(email, password).then((result) => {
-      const user = result.user
+    return Auth.signInWithEmailAndPassword(email, password)
+      .then((result) => {
+        const user = result.user
 
-      if (user) {
+        if (!user) {
+          throw new Error('User does not exist.')
+        }
         const uid = user.uid
 
         db.collection('users')
@@ -69,6 +113,9 @@ export const signIn = (email: string, password: string) => {
           .get()
           .then((snapshot) => {
             const data = snapshot.data()
+            if (!data) {
+              throw new Error('User data does not exist.')
+            }
 
             dispatch(
               signInAction({
@@ -81,8 +128,10 @@ export const signIn = (email: string, password: string) => {
 
             dispatch(push('/'))
           })
-      }
-    })
+      })
+      .catch(() => {
+        alert('サインインに失敗しました。')
+      })
   }
 }
 
@@ -93,16 +142,39 @@ export const signInAnonymously = () => {
         await Auth.setPersistence(firebase.auth.Auth.Persistence.SESSION)
         dispatch(push('/'))
       })
-      .catch(() => {
-        alert('ゲストログインに失敗しました。')
+      .catch((error) => {
+        alert('ゲストサインインに失敗しました。')
+        throw new Error(error)
+      })
+  }
+}
+
+export const signOut = () => {
+  return async (dispatsh: Dispatch) => {
+    Auth.signOut()
+      .then(() => {
+        dispatsh(signOutAction())
+        dispatsh(push('/signin'))
+      })
+      .catch((error) => {
+        alert('サインアウトに失敗しました。')
+        throw new Error(error)
       })
   }
 }
 
 export const signUp = (username: string, email: string, password: string, confirmPassword: string) => {
   return async (dispatch: Dispatch) => {
-    if (username === '' || email === '' || password === '' || confirmPassword === '') {
+    if (!isValidRequire(username, email, password, confirmPassword)) {
       alert('必須項目が未入力です。')
+      return false
+    }
+    if (!isValidEmail(email)) {
+      alert('メールアドレスの形式が不正です。')
+      return false
+    }
+    if (password.length < 6) {
+      alert('パスワードは6文字以上で設定して下さい。')
       return false
     }
     if (password !== confirmPassword) {
@@ -110,11 +182,62 @@ export const signUp = (username: string, email: string, password: string, confir
       return false
     }
 
-    return Auth.createUserWithEmailAndPassword(email, password).then((result) => {
-      const user = result.user
+    return Auth.createUserWithEmailAndPassword(email, password)
+      .then((result) => {
+        const user = result.user
 
-      if (user) {
-        const uid = user.uid
+        if (user) {
+          const uid = user.uid
+          const timestamp = FirebaseTimestamp.now()
+
+          const userInitialData = {
+            created_at: timestamp,
+            email: email,
+            role: 'customer',
+            uid: uid,
+            updated_at: timestamp,
+            username: username,
+          }
+
+          db.collection('users')
+            .doc(uid)
+            .set(userInitialData)
+            .then(() => {
+              dispatch(push('/'))
+            })
+        }
+      })
+      .catch((error) => {
+        alert('アカウントの新規登録に失敗しました。')
+        throw new Error(error)
+      })
+  }
+}
+
+export const signUpAnon = (username: string, email: string, password: string, confirmPassword: string) => {
+  return async (dispatch: Dispatch) => {
+    if (!isValidRequire(username, email, password, confirmPassword)) {
+      alert('必須項目が未入力です。')
+      return false
+    }
+    if (!isValidEmail(email)) {
+      alert('メールアドレスの形式が不正です。')
+      return false
+    }
+    if (password.length < 6) {
+      alert('パスワードは6文字以上で設定して下さい。')
+      return false
+    }
+    if (password !== confirmPassword) {
+      alert('パスワードが一致していません。')
+      return false
+    }
+
+    const credential = firebase.auth.EmailAuthProvider.credential(email, password)
+    return Auth.currentUser
+      ?.linkWithCredential(credential)
+      .then(() => {
+        const uid = Auth.currentUser?.uid
         const timestamp = FirebaseTimestamp.now()
 
         const userInitialData = {
@@ -132,86 +255,10 @@ export const signUp = (username: string, email: string, password: string, confir
           .then(() => {
             dispatch(push('/'))
           })
-      }
-    })
-  }
-}
-
-export const signUpAnon = (username: string, email: string, password: string, confirmPassword: string) => {
-  return async (dispatch: Dispatch) => {
-    if (username === '' || email === '' || password === '' || confirmPassword === '') {
-      alert('必須項目が未入力です。')
-      return false
-    }
-    if (password !== confirmPassword) {
-      alert('パスワードが一致していません。')
-      return false
-    }
-
-    const credential = firebase.auth.EmailAuthProvider.credential(email, password)
-    return Auth.currentUser?.linkWithCredential(credential).then(() => {
-      const uid = Auth.currentUser?.uid
-      const timestamp = FirebaseTimestamp.now()
-
-      const userInitialData = {
-        created_at: timestamp,
-        email: email,
-        role: 'customer',
-        uid: uid,
-        updated_at: timestamp,
-        username: username,
-      }
-
-      db.collection('users')
-        .doc(uid)
-        .set(userInitialData)
-        .then(() => {
-          dispatch(push('/'))
-        })
-    })
-  }
-}
-
-export const signOut = () => {
-  return async (dispatsh: Dispatch) => {
-    Auth.signOut().then(() => {
-      dispatsh(signOutAction())
-      dispatsh(push('/signin'))
-    })
-  }
-}
-
-export const deleteUser = () => {
-  return async (dispatsh: Dispatch) => {
-    const user = Auth.currentUser
-    const uid = Auth.currentUser?.uid
-    const dishesRef = db.collection('users').doc(uid).collection('dishes')
-    const imageRef = storage.ref(`${uid}/images`)
-    const usersRef = db.collection('users').doc(uid)
-
-    await imageRef.listAll().then((listResults) => {
-      const promises = listResults.items.map((item) => {
-        return item.delete()
       })
-      Promise.all(promises)
-    })
-
-    const dishQuery = await dishesRef.get()
-    dishQuery.docs.forEach(async (doc) => {
-      await doc.ref.delete()
-    })
-
-    const userQuery = await usersRef.get()
-    await userQuery.ref.delete()
-
-    user
-      ?.delete()
-      .then(async () => {
-        await dispatsh(push('/signin'))
-        location.reload()
-      })
-      .catch(() => {
-        alert('アカウント削除に失敗しました。')
+      .catch((error) => {
+        alert('アカウントの登録に失敗しました。')
+        throw new Error(error)
       })
   }
 }

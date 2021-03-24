@@ -7,9 +7,9 @@ import { DishDetail, DishEdit, DishList, Reset, SignIn, SignUp, SignUpAnon } fro
 const Router: React.FC = () => {
   return (
     <Switch>
+      <Route exact path="/reset" component={Reset} />
       <Route exact path="/signin" component={SignIn} />
       <Route exact path="/signup" component={SignUp} />
-      <Route exact path="/reset" component={Reset} />
       <Auth>
         <Route exact path="/(/)?" component={DishList} />
         <Route exact path="/anon/signup" component={SignUpAnon} />

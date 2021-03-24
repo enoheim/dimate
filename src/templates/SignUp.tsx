@@ -57,9 +57,9 @@ const SignUp: React.FC = () => {
   return (
     <div className="section-container">
       <div className="spacer-medium" />
-      <h2 className={classes.head}>アカウント登録</h2>
+      <h2 className={classes.head}>アカウント新規登録</h2>
       <div className="spacer-small" />
-      <p className={classes.font}>許可されるパスワードは6文字以上の英数字のみです。</p>
+      <p className={classes.font}>パスワードは6文字以上で設定して下さい。</p>
       <div className="spacer-small" />
       <TextInput
         fullWidth={true}
@@ -104,7 +104,7 @@ const SignUp: React.FC = () => {
       <div className="spacer-small" />
       <div className="spacer-small" />
       <PrimaryButton
-        label={'アカウント登録'}
+        label={'アカウント新規登録'}
         onClick={() => dispatch(signUp(username, email, password, confirmPassword))}
       />
       <div className="spacer-extrasmall" />

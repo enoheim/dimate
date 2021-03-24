@@ -7,10 +7,10 @@ const useStyles = makeStyles((theme) => ({
   button: {
     backgroundColor: theme.palette.primary.main,
     color: theme.palette.secondary.main,
-    fontSize: 16,
-    height: 48,
-    marginBottom: 16,
-    width: 256,
+    fontSize: '16px',
+    height: '48px',
+    marginBottom: '16px',
+    width: '256px',
   },
 }))
 

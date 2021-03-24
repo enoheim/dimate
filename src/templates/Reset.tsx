@@ -14,7 +14,6 @@ const useStyles = makeStyles((theme) => ({
   },
   font: {
     color: theme.palette.secondary.main,
-    fontSize: '16px',
   },
 }))
 

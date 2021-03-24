@@ -59,7 +59,7 @@ const SignUpAnon: React.FC = () => {
       <div className="spacer-medium" />
       <h2 className={classes.head}>アカウント登録</h2>
       <div className="spacer-small" />
-      <p className={classes.font}>許可されるパスワードは6文字以上の英数字のみです。</p>
+      <p className={classes.font}>パスワードは6文字以上で設定して下さい。</p>
       <div className="spacer-small" />
       <TextInput
         fullWidth={true}

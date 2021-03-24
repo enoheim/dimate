@@ -1,5 +1,5 @@
 import { push } from 'connected-react-router'
-import React, { useCallback, useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 
 import Divider from '@material-ui/core/Divider'
@@ -16,7 +16,7 @@ import RemoveCircleIcon from '@material-ui/icons/RemoveCircle'
 
 import { db } from '../../firebase'
 import { deleteUser, signOut } from '../../reducks/users/operations'
-import { getUserRole } from '../../reducks/users/selectors'
+import { getUserId, getUserRole } from '../../reducks/users/selectors'
 
 const useStyles = makeStyles((theme) =>
   createStyles({
@@ -50,6 +50,7 @@ const ClosableDrawer: React.FC<Props> = (props) => {
   const classes = useStyles()
   const dispatch = useDispatch()
   const selector = useSelector((state) => state)
+  const userId = getUserId(selector)
   const userRole = getUserRole(selector)
 
   const selectMenu = (event: any, path: string) => {
@@ -72,18 +73,20 @@ const ClosableDrawer: React.FC<Props> = (props) => {
   }
 
   useEffect(() => {
-    db.collection('categories')
-      .orderBy('name', 'asc')
-      .get()
-      .then((snapshots) => {
-        const list: any = []
-        snapshots.forEach((snapshot) => {
-          const category = snapshot.data()
-          list.push({ func: selectMenu, label: category.name, id: category.id, value: `/?category=${category.id}` })
+    if (userId) {
+      db.collection('categories')
+        .orderBy('name', 'asc')
+        .get()
+        .then((snapshots) => {
+          const list: any = []
+          snapshots.forEach((snapshot) => {
+            const category = snapshot.data()
+            list.push({ func: selectMenu, label: category.name, id: category.id, value: `/?category=${category.id}` })
+          })
+          setFilters((prevState) => [...prevState, ...list])
         })
-        setFilters((prevState) => [...prevState, ...list])
-      })
-  }, [])
+    }
+  }, [userId])
 
   return (
     <nav className={classes.drawer}>
