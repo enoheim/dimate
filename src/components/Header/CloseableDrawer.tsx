@@ -12,7 +12,7 @@ import { createStyles, makeStyles } from '@material-ui/core/styles'
 import AccountCircleIcon from '@material-ui/icons/AccountCircle'
 import AddCircleIcon from '@material-ui/icons/AddCircle'
 import ExitToAppIcon from '@material-ui/icons/ExitToApp'
-import RemoveCircleIcon from '@material-ui/icons/RemoveCircle'
+import HighlightOffIcon from '@material-ui/icons/HighlightOff'
 
 import { db } from '../../firebase'
 import { deleteUser, signOut } from '../../reducks/users/operations'
@@ -115,17 +115,17 @@ const ClosableDrawer: React.FC<Props> = (props) => {
                 <ListItemText primary={'アカウント登録'} />
               </ListItem>
             )}
-            <ListItem button key="deleteuser" onClick={(event) => selectDeleteUser(event)}>
-              <ListItemIcon>
-                <RemoveCircleIcon className={classes.icon} />
-              </ListItemIcon>
-              <ListItemText primary={'アカウント削除'} />
-            </ListItem>
             <ListItem button key="logout" onClick={(event) => selectSignOut(event)}>
               <ListItemIcon>
                 <ExitToAppIcon className={classes.icon} />
               </ListItemIcon>
               <ListItemText primary={'サインアウト'} />
+            </ListItem>
+            <ListItem button key="deleteuser" onClick={(event) => selectDeleteUser(event)}>
+              <ListItemIcon>
+                <HighlightOffIcon className={classes.icon} />
+              </ListItemIcon>
+              <ListItemText primary={'アカウント削除'} />
             </ListItem>
           </List>
           <Divider />

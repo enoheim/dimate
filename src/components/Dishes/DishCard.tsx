@@ -47,7 +47,7 @@ const useStyles = makeStyles((theme) => ({
     [theme.breakpoints.up('sm')]: {
       width: '260px',
     },
-    padding: '4px 0px 0px 12px',
+    padding: '2px 0px 0px 12px',
     fontSize: '20px',
     fontWeight: 'bold',
     textAlign: 'left',
@@ -83,10 +83,10 @@ const useStyles = makeStyles((theme) => ({
       width: '260px',
     },
   },
+  typoTitle: {
+    fontWeight: 'bold',
+  },
   typoFont: {
-    [theme.breakpoints.down('sm')]: {
-      fontSize: '16px',
-    },
     [theme.breakpoints.up('sm')]: {
       fontSize: '14px',
     },
@@ -182,19 +182,19 @@ const DishCard: React.FC<Props> = (props) => {
       </CardActions>
       <Collapse in={expanded} className={classes.more} timeout="auto" unmountOnExit>
         <CardContent className={classes.content}>
-          {props.url && <Typography className={classes.typoFont}>参考URL:</Typography>}
+          {props.url && <Typography className={classes.typoTitle}>参考URL:</Typography>}
           {props.url && (
             <Typography paragraph className={classes.typoFont}>
               <Linkify>{props.url}</Linkify>
             </Typography>
           )}
-          {props.ingredients && <Typography className={classes.typoFont}>材料:</Typography>}
+          {props.ingredients && <Typography className={classes.typoTitle}>材料:</Typography>}
           {props.ingredients && (
             <Typography paragraph className={classes.typoFont}>
               {returnCodeToBr(props.ingredients)}
             </Typography>
           )}
-          {props.description && <Typography className={classes.typoFont}>説明:</Typography>}
+          {props.description && <Typography className={classes.typoTitle}>説明:</Typography>}
           {props.description && (
             <Typography paragraph className={classes.typoFont}>
               {returnCodeToBr(props.description)}
