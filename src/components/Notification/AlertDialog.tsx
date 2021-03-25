@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 
 import Button from '@material-ui/core/Button'
@@ -24,11 +24,11 @@ const AlertDialog: React.FC = () => {
           <DialogContentText id="alert-dialog-description">{message}</DialogContentText>
         </DialogContent>
         <DialogActions>
-          <Button onClick={() => dispatch(hideAlert())} color="primary">
-            いいえ
-          </Button>
-          <Button onClick={() => dispatch(clickHandler)} color="primary" autoFocus>
+          <Button onClick={() => dispatch(clickHandler)} color="secondary">
             はい
+          </Button>
+          <Button onClick={() => dispatch(hideAlert())} color="secondary" autoFocus>
+            いいえ
           </Button>
         </DialogActions>
       </Dialog>
