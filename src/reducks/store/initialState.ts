@@ -1,4 +1,9 @@
 const initialState = {
+  alert: {
+    clickHandler: Function,
+    isOpen: false,
+    message: '',
+  },
   dishes: {
     list: [],
   },

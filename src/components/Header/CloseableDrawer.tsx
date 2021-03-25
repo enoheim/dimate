@@ -15,6 +15,7 @@ import ExitToAppIcon from '@material-ui/icons/ExitToApp'
 import HighlightOffIcon from '@material-ui/icons/HighlightOff'
 
 import { db } from '../../firebase'
+import { showAlert } from '../../reducks/alert/operations'
 import { deleteUser, signOut } from '../../reducks/users/operations'
 import { getUserId, getUserRole } from '../../reducks/users/selectors'
 
@@ -64,12 +65,12 @@ const ClosableDrawer: React.FC<Props> = (props) => {
 
   const selectDeleteUser = (event: any) => {
     props.onClose(event, false)
-    dispatch(deleteUser())
+    dispatch(showAlert(deleteUser(), '本当にアカウントを削除しますか？'))
   }
 
   const selectSignOut = (event: any) => {
     props.onClose(event, false)
-    dispatch(signOut())
+    dispatch(showAlert(signOut(), 'サインアウトしますか？'))
   }
 
   useEffect(() => {
@@ -121,12 +122,6 @@ const ClosableDrawer: React.FC<Props> = (props) => {
               </ListItemIcon>
               <ListItemText primary={'サインアウト'} />
             </ListItem>
-            <ListItem button key="deleteuser" onClick={(event) => selectDeleteUser(event)}>
-              <ListItemIcon>
-                <HighlightOffIcon className={classes.icon} />
-              </ListItemIcon>
-              <ListItemText primary={'アカウント削除'} />
-            </ListItem>
           </List>
           <Divider />
           <List>
@@ -135,6 +130,15 @@ const ClosableDrawer: React.FC<Props> = (props) => {
                 <ListItemText className={classes.font} primary={filter.label} />
               </ListItem>
             ))}
+          </List>
+          <Divider />
+          <List>
+            <ListItem button key="deleteuser" onClick={(event) => selectDeleteUser(event)}>
+              <ListItemIcon>
+                <HighlightOffIcon className={classes.icon} />
+              </ListItemIcon>
+              <ListItemText primary={'アカウント削除'} />
+            </ListItem>
           </List>
         </div>
       </Drawer>

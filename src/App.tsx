@@ -1,7 +1,7 @@
 import './assets/style.css'
 import './assets/reuse.css'
 
-import { NoticeSnackbar } from 'components/Notification'
+import { AlertDialog, NoticeSnackbar } from 'components/Notification'
 import React from 'react'
 
 import ScrollToTop from './assets/ScrollToTop'
@@ -13,6 +13,7 @@ const App = () => {
     <>
       <Header />
       <main className="main">
+        <AlertDialog />
         <NoticeSnackbar />
         <Router />
         <ScrollToTop />

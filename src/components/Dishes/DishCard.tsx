@@ -19,6 +19,7 @@ import SettingsIcon from '@material-ui/icons/Settings'
 
 import { returnCodeToBr } from '../../assets/common'
 import NoImage from '../../assets/img/no_image.png'
+import { showAlert } from '../../reducks/alert/operations'
 import { deleteDish } from '../../reducks/dishes/operations'
 import { ImageProps } from '../../reducks/dishes/types'
 import { getUserId } from '../../reducks/users/selectors'
@@ -162,7 +163,7 @@ const DishCard: React.FC<Props> = (props) => {
           <MenuItem
             className={classes.menu}
             onClick={() => {
-              dispatch(deleteDish(props.id, uid))
+              dispatch(showAlert(deleteDish(props.id, uid), '本当にレシピを削除しますか？'))
               handleClose()
             }}
           >
