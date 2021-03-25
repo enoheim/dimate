@@ -4,10 +4,11 @@ import { Dispatch } from 'redux'
 
 import { isValidEmail, isValidRequire } from '../../assets/common'
 import { Auth, db, FirebaseTimestamp, storage } from '../../firebase'
+import { showNotificationAction } from '../notification/actions'
 import { signInAction, signOutAction } from './actions'
 
 export const deleteUser = () => {
-  return async (dispatsh: Dispatch) => {
+  return async (dispatch: Dispatch) => {
     const user = Auth.currentUser
     const uid = Auth.currentUser?.uid
     const dishesRef = db.collection('users').doc(uid).collection('dishes')
@@ -32,11 +33,14 @@ export const deleteUser = () => {
     user
       ?.delete()
       .then(async () => {
-        await dispatsh(push('/signin'))
-        location.reload()
+        dispatch(showNotificationAction('success', 'アカウント削除に成功しました'))
+        await dispatch(push('/signin'))
+        setTimeout(() => {
+          location.reload()
+        }, 1000)
       })
       .catch((error) => {
-        alert('アカウント削除に失敗しました。')
+        dispatch(showNotificationAction('error', 'アカウント削除に失敗しました'))
         throw new Error(error)
       })
   }
@@ -73,16 +77,16 @@ export const listenAuthState = () => {
 export const resetPassword = (email: string) => {
   return async (dispatch: Dispatch) => {
     if (!isValidEmail(email)) {
-      alert('メールアドレスの形式が不正です。')
+      dispatch(showNotificationAction('warning', 'メールアドレスの形式が不正です'))
       return false
     } else {
       Auth.sendPasswordResetEmail(email)
         .then(() => {
-          alert('パスワードリセット用のメールを送信しました。')
+          dispatch(showNotificationAction('success', 'パスワードリセット用のメールを送信しました'))
           dispatch(push('/signin'))
         })
         .catch(() => {
-          alert('パスワードリセット用のメール送信に失敗しました。')
+          dispatch(showNotificationAction('error', 'パスワードリセット用のメール送信に失敗しました'))
         })
     }
   }
@@ -91,11 +95,11 @@ export const resetPassword = (email: string) => {
 export const signIn = (email: string, password: string) => {
   return async (dispatch: Dispatch) => {
     if (!isValidRequire(email, password)) {
-      alert('必須項目が未入力です。')
+      dispatch(showNotificationAction('warning', '必須項目が未入力です'))
       return false
     }
     if (!isValidEmail(email)) {
-      alert('メールアドレスの形式が不正です。')
+      dispatch(showNotificationAction('warning', 'メールアドレスの形式が不正です'))
       return false
     }
 
@@ -126,11 +130,12 @@ export const signIn = (email: string, password: string) => {
               })
             )
 
+            dispatch(showNotificationAction('success', 'サインインに成功しました'))
             dispatch(push('/'))
           })
       })
       .catch(() => {
-        alert('サインインに失敗しました。')
+        dispatch(showNotificationAction('error', 'サインインに失敗しました'))
       })
   }
 }
@@ -140,25 +145,29 @@ export const signInAnonymously = () => {
     Auth.signInAnonymously()
       .then(async () => {
         await Auth.setPersistence(firebase.auth.Auth.Persistence.SESSION)
+        dispatch(showNotificationAction('success', 'ゲストサインインに成功しました'))
         dispatch(push('/'))
       })
       .catch((error) => {
-        alert('ゲストサインインに失敗しました。')
+        dispatch(showNotificationAction('error', 'ゲストサインインに失敗しました'))
         throw new Error(error)
       })
   }
 }
 
 export const signOut = () => {
-  return async (dispatsh: Dispatch) => {
+  return async (dispatch: Dispatch) => {
     Auth.signOut()
       .then(async () => {
-        dispatsh(signOutAction())
-        await dispatsh(push('/signin'))
-        location.reload()
+        dispatch(signOutAction())
+        dispatch(showNotificationAction('success', 'サインアウトに成功しました'))
+        await dispatch(push('/signin'))
+        setTimeout(() => {
+          location.reload()
+        }, 1000)
       })
       .catch((error) => {
-        alert('サインアウトに失敗しました。')
+        dispatch(showNotificationAction('error', 'サインアウトに失敗しました'))
         throw new Error(error)
       })
   }
@@ -167,19 +176,19 @@ export const signOut = () => {
 export const signUp = (username: string, email: string, password: string, confirmPassword: string) => {
   return async (dispatch: Dispatch) => {
     if (!isValidRequire(username, email, password, confirmPassword)) {
-      alert('必須項目が未入力です。')
+      dispatch(showNotificationAction('warning', '必須項目が未入力です'))
       return false
     }
     if (!isValidEmail(email)) {
-      alert('メールアドレスの形式が不正です。')
+      dispatch(showNotificationAction('warning', 'メールアドレスの形式が不正です'))
       return false
     }
     if (password.length < 6) {
-      alert('パスワードは6文字以上で設定して下さい。')
+      dispatch(showNotificationAction('warning', 'パスワードは6文字以上で設定して下さい'))
       return false
     }
     if (password !== confirmPassword) {
-      alert('パスワードが一致していません。')
+      dispatch(showNotificationAction('warning', 'パスワードが一致していません'))
       return false
     }
 
@@ -209,7 +218,7 @@ export const signUp = (username: string, email: string, password: string, confir
         }
       })
       .catch((error) => {
-        alert('アカウントの新規登録に失敗しました。')
+        dispatch(showNotificationAction('error', 'アカウントの新規登録に失敗しました'))
         throw new Error(error)
       })
   }
@@ -218,19 +227,19 @@ export const signUp = (username: string, email: string, password: string, confir
 export const signUpAnon = (username: string, email: string, password: string, confirmPassword: string) => {
   return async (dispatch: Dispatch) => {
     if (!isValidRequire(username, email, password, confirmPassword)) {
-      alert('必須項目が未入力です。')
+      dispatch(showNotificationAction('warning', '必須項目が未入力です'))
       return false
     }
     if (!isValidEmail(email)) {
-      alert('メールアドレスの形式が不正です。')
+      dispatch(showNotificationAction('warning', 'メールアドレスの形式が不正です'))
       return false
     }
     if (password.length < 6) {
-      alert('パスワードは6文字以上で設定して下さい。')
+      dispatch(showNotificationAction('warning', 'パスワードは6文字以上で設定して下さい'))
       return false
     }
     if (password !== confirmPassword) {
-      alert('パスワードが一致していません。')
+      dispatch(showNotificationAction('warning', 'パスワードが一致していません'))
       return false
     }
 
@@ -258,7 +267,7 @@ export const signUpAnon = (username: string, email: string, password: string, co
           })
       })
       .catch((error) => {
-        alert('アカウントの登録に失敗しました。')
+        dispatch(showNotificationAction('error', 'アカウントの登録に失敗しました'))
         throw new Error(error)
       })
   }

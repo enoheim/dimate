@@ -8,8 +8,8 @@ const Router: React.FC = () => {
   return (
     <Switch>
       <Route exact path="/reset" component={Reset} />
-      <Route exact path="/signin" component={SignIn} />
       <Route exact path="/signup" component={SignUp} />
+      <Route exact path="/signin" component={SignIn} />
       <Auth>
         <Route exact path="/(/)?" component={DishList} />
         <Route exact path="/anon/signup" component={SignUpAnon} />

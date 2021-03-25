@@ -107,6 +107,10 @@ const SignUpAnon: React.FC = () => {
         label={'アカウント登録'}
         onClick={() => dispatch(signUpAnon(username, email, password, confirmPassword))}
       />
+      <div className="spacer-extrasmall" />
+      <p className={classes.font} onClick={() => dispatch(push('/'))}>
+        ホーム画面に戻る
+      </p>
     </div>
   )
 }

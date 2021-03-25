@@ -3,6 +3,7 @@ import 'react-redux'
 import { RouterState } from 'connected-react-router'
 
 import { ListState } from '../dishes/types'
+import { NoticeState } from '../notification/types'
 
 declare module 'react-redux' {
   interface DefaultRootState extends RootState {}
@@ -10,6 +11,7 @@ declare module 'react-redux' {
 
 export type RootState = {
   dishes: ListState
+  notification: NoticeState
   router: RouterState
   users: UserState
 }

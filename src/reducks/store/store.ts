@@ -4,12 +4,14 @@ import { applyMiddleware, combineReducers, createStore as reduxCreateStore } fro
 import thunk from 'redux-thunk'
 
 import { DishesReducer } from '../dishes/reducers'
+import { NoticeReducer } from '../notification/reducers'
 import { UsersReducer } from '../users/reducers'
 
 const createStore = (history: History) => {
   return reduxCreateStore(
     combineReducers({
       dishes: DishesReducer,
+      notification: NoticeReducer,
       router: connectRouter(history),
       users: UsersReducer,
     }),

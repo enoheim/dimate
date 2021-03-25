@@ -109,7 +109,7 @@ const SignUp: React.FC = () => {
       />
       <div className="spacer-extrasmall" />
       <p className={classes.font} onClick={() => dispatch(push('/signin'))}>
-        アカウントを持っている場合
+        サインイン画面に戻る
       </p>
     </div>
   )
