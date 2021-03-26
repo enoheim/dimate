@@ -210,6 +210,7 @@ export const signUp = (email: string, password: string, confirmPassword: string)
             .doc(uid)
             .set(userInitialData)
             .then(() => {
+              dispatch(showNotificationAction('success', 'アカウントの新規登録に成功しました'))
               dispatch(push('/'))
             })
         }
@@ -259,6 +260,7 @@ export const signUpAnon = (email: string, password: string, confirmPassword: str
           .doc(uid)
           .set(userInitialData)
           .then(() => {
+            dispatch(showNotificationAction('success', 'アカウントの登録に成功しました'))
             dispatch(push('/'))
           })
       })
