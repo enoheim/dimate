@@ -7,6 +7,29 @@ import { Auth, db, FirebaseTimestamp, storage } from '../../firebase'
 import { showNotificationAction } from '../notification/actions'
 import { signInAction, signOutAction } from './actions'
 
+export const changeEmail = (email: string, confirmEmail: string) => {
+  return async (dispatch: Dispatch) => {
+    if (!isValidEmail(email)) {
+      dispatch(showNotificationAction('warning', 'メールアドレスの形式が不正です'))
+      return false
+    }
+    if (email !== confirmEmail) {
+      dispatch(showNotificationAction('warning', 'メールアドレスが一致していません'))
+      return false
+    }
+    return Auth.currentUser
+      ?.updateEmail(email)
+      .then(() => {
+        dispatch(showNotificationAction('success', 'メールアドレスの変更に成功しました'))
+        dispatch(push('/'))
+      })
+      .catch((error) => {
+        dispatch(showNotificationAction('error', 'メールアドレスの変更に失敗しました'))
+        throw new Error(error)
+      })
+  }
+}
+
 export const deleteUser = () => {
   return async (dispatch: Dispatch) => {
     const user = Auth.currentUser
@@ -200,7 +223,6 @@ export const signUp = (email: string, password: string, confirmPassword: string)
 
           const userInitialData = {
             created_at: timestamp,
-            email: email,
             role: 'customer',
             uid: uid,
             updated_at: timestamp,
@@ -250,7 +272,6 @@ export const signUpAnon = (email: string, password: string, confirmPassword: str
 
         const userInitialData = {
           created_at: timestamp,
-          email: email,
           role: 'customer',
           uid: uid,
           updated_at: timestamp,

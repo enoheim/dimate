@@ -2,7 +2,7 @@ import React from 'react'
 import { Route, Switch } from 'react-router'
 
 import Auth from './Auth'
-import { DishDetail, DishEdit, DishList, Reset, SignIn, SignUp } from './templates'
+import { ChangeEmail, DishDetail, DishEdit, DishList, Reset, SignIn, SignUp } from './templates'
 
 const Router: React.FC = () => {
   return (
@@ -12,6 +12,7 @@ const Router: React.FC = () => {
       <Route exact path="/signin" component={SignIn} />
       <Auth>
         <Route exact path="/(/)?" component={DishList} />
+        <Route exact path="/change/email" component={ChangeEmail} />
         <Route exact path="/dish/detail/:id" component={DishDetail} />
         <Route path="/dish/edit(/:id)?" component={DishEdit} />
       </Auth>

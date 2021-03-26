@@ -13,6 +13,7 @@ import AccountCircleIcon from '@material-ui/icons/AccountCircle'
 import AddCircleIcon from '@material-ui/icons/AddCircle'
 import ExitToAppIcon from '@material-ui/icons/ExitToApp'
 import HighlightOffIcon from '@material-ui/icons/HighlightOff'
+import MailIcon from '@material-ui/icons/Mail'
 
 import { db } from '../../firebase'
 import { showAlert } from '../../reducks/alert/operations'
@@ -114,6 +115,14 @@ const ClosableDrawer: React.FC<Props> = (props) => {
                   <AccountCircleIcon className={classes.icon} />
                 </ListItemIcon>
                 <ListItemText primary={'アカウント登録'} />
+              </ListItem>
+            )}
+            {userRole == 'customer' && (
+              <ListItem button key="changeEmail" onClick={(event) => selectMenu(event, '/change/email')}>
+                <ListItemIcon>
+                  <MailIcon className={classes.icon} />
+                </ListItemIcon>
+                <ListItemText primary={'メールアドレス変更'} />
               </ListItem>
             )}
             <ListItem button key="logout" onClick={(event) => selectSignOut(event)}>
