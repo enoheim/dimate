@@ -87,7 +87,7 @@ const Top: React.FC = () => {
       <Divider />
       <div className="spacer-small" />
       <footer className={classes.font}>
-        <p>Copyright © 2021 enoheim</p>
+        <p>Copyright © 2021 enoha</p>
         <div className="spacer-extrasmall" />
         <GitHubIcon onClick={() => window.open('https://github.com/enoheim')} />
       </footer>
