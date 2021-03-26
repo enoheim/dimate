@@ -13,6 +13,7 @@ import AccountCircleIcon from '@material-ui/icons/AccountCircle'
 import AddCircleIcon from '@material-ui/icons/AddCircle'
 import ExitToAppIcon from '@material-ui/icons/ExitToApp'
 import HighlightOffIcon from '@material-ui/icons/HighlightOff'
+import LockIcon from '@material-ui/icons/Lock'
 import MailIcon from '@material-ui/icons/Mail'
 
 import { db } from '../../firebase'
@@ -123,6 +124,14 @@ const ClosableDrawer: React.FC<Props> = (props) => {
                   <MailIcon className={classes.icon} />
                 </ListItemIcon>
                 <ListItemText primary={'メールアドレス変更'} />
+              </ListItem>
+            )}
+            {userRole == 'customer' && (
+              <ListItem button key="changePassword" onClick={(event) => selectMenu(event, '/change/password')}>
+                <ListItemIcon>
+                  <LockIcon className={classes.icon} />
+                </ListItemIcon>
+                <ListItemText primary={'パスワード変更'} />
               </ListItem>
             )}
             <ListItem button key="logout" onClick={(event) => selectSignOut(event)}>

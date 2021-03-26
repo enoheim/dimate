@@ -17,7 +17,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
-const Reset: React.FC = () => {
+const ResetPassword: React.FC = () => {
   const classes = useStyles()
   const dispatch = useDispatch()
 
@@ -58,4 +58,4 @@ const Reset: React.FC = () => {
   )
 }
 
-export default Reset
+export default ResetPassword

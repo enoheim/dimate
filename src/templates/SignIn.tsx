@@ -75,7 +75,7 @@ const SignIn: React.FC = () => {
       <p className={classes.font} onClick={() => dispatch(push('/signup'))}>
         アカウント登録はこちら
       </p>
-      <p className={classes.font} onClick={() => dispatch(push('/reset'))}>
+      <p className={classes.font} onClick={() => dispatch(push('/reset/password'))}>
         パスワードを忘れた場合
       </p>
     </div>

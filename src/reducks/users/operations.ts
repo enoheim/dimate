@@ -30,6 +30,25 @@ export const changeEmail = (email: string, confirmEmail: string) => {
   }
 }
 
+export const changePassword = (password: string, confirmPassword: string) => {
+  return async (dispatch: Dispatch) => {
+    if (password !== confirmPassword) {
+      dispatch(showNotificationAction('warning', 'パスワードが一致していません'))
+      return false
+    }
+    return Auth.currentUser
+      ?.updatePassword(password)
+      .then(() => {
+        dispatch(showNotificationAction('success', 'パスワードの変更に成功しました'))
+        dispatch(push('/'))
+      })
+      .catch((error) => {
+        dispatch(showNotificationAction('error', 'パスワードの変更に失敗しました'))
+        throw new Error(error)
+      })
+  }
+}
+
 export const deleteUser = () => {
   return async (dispatch: Dispatch) => {
     const user = Auth.currentUser
