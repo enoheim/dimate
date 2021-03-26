@@ -76,7 +76,7 @@ export const deleteUser = () => {
       ?.delete()
       .then(async () => {
         dispatch(showNotificationAction('success', 'アカウント削除に成功しました'))
-        await dispatch(push('/signin'))
+        await dispatch(push('/top'))
         setTimeout(() => {
           location.reload()
         }, 1000)
@@ -109,7 +109,7 @@ export const listenAuthState = () => {
             )
           })
       } else {
-        dispatch(push('/signin'))
+        dispatch(push('/top'))
       }
     })
   }

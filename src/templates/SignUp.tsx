@@ -106,6 +106,11 @@ const SignUp: React.FC = () => {
           サインイン画面に戻る
         </p>
       )}
+      {!isSignedIn && (
+        <p className={classes.font} onClick={() => dispatch(push('/top'))}>
+          トップ画面に戻る
+        </p>
+      )}
       {isSignedIn && (
         <p className={classes.font} onClick={() => dispatch(push('/'))}>
           ホーム画面に戻る

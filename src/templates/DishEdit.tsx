@@ -1,4 +1,5 @@
 import { ImageArea } from 'components/Dishes/'
+import { push } from 'connected-react-router'
 import React, { useCallback, useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 
@@ -28,7 +29,8 @@ const DishEdit: React.FC = () => {
   const uid = getUserId(selector)
 
   let id = window.location.pathname
-  if (id !== '/' && id !== '/dish/edit') {
+  console.log(id)
+  if (id !== '/' && id !== '/top' && id !== '/change/email' && id !== '/change/password' && id !== '/dish/edit') {
     id = window.location.pathname.split('/dish/edit')[1]
     if (id !== '') {
       id = id.split('/')[1]
@@ -89,7 +91,7 @@ const DishEdit: React.FC = () => {
   }, [])
 
   useEffect(() => {
-    if (id !== '/' && id !== '/dish/edit') {
+    if (id !== '/' && id !== '/top' && id !== '/change/email' && id !== '/change/password' && id !== '/dish/edit') {
       db.collection('users')
         .doc(uid)
         .collection('dishes')
@@ -162,6 +164,10 @@ const DishEdit: React.FC = () => {
             dispatch(saveDish(category, description, id, images, ingredients, recipeTitle, recipeUrl, uid))
           }
         />
+        <div className="spacer-small" />
+        <p className={classes.font} onClick={() => dispatch(push('/'))}>
+          ホーム画面に戻る
+        </p>
       </div>
     </div>
   )

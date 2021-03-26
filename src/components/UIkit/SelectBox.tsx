@@ -9,10 +9,8 @@ import { makeStyles } from '@material-ui/styles'
 import { ArrayProps } from '../../reducks/dishes/types'
 
 const useStyles = makeStyles({
-  formControl: {
-    marginBotton: 16,
-    minWidth: 128,
-    width: '100%',
+  root: {
+    width: '280px',
   },
 })
 
@@ -28,7 +26,7 @@ const SelectBox: React.FC<Props> = (props) => {
   const classes = useStyles()
 
   return (
-    <FormControl className={classes.formControl}>
+    <FormControl className={classes.root}>
       <InputLabel>{props.label}</InputLabel>
       <Select required={props.required} value={props.value} onChange={(event) => props.select(event.target.value)}>
         {props.options.map((option) => (
