@@ -16,7 +16,6 @@ const initialState = {
     isSignedIn: false,
     role: '',
     uid: '',
-    username: '',
   },
 }
 

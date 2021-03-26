@@ -9,7 +9,6 @@ export const signInAction = (userState: UserState) => {
       isSignedIn: true,
       role: userState.role,
       uid: userState.uid,
-      username: userState.username,
     },
   }
 }
@@ -23,7 +22,6 @@ export const signOutAction = () => {
       isSignedIn: false,
       role: '',
       uid: '',
-      username: '',
     },
   }
 }

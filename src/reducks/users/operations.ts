@@ -63,7 +63,6 @@ export const listenAuthState = () => {
                 isSignedIn: true,
                 role: data?.role,
                 uid: uid,
-                username: data?.username,
               })
             )
           })
@@ -126,7 +125,6 @@ export const signIn = (email: string, password: string) => {
                 isSignedIn: true,
                 role: data?.role,
                 uid: uid,
-                username: data?.username,
               })
             )
 
@@ -173,9 +171,9 @@ export const signOut = () => {
   }
 }
 
-export const signUp = (username: string, email: string, password: string, confirmPassword: string) => {
+export const signUp = (email: string, password: string, confirmPassword: string) => {
   return async (dispatch: Dispatch) => {
-    if (!isValidRequire(username, email, password, confirmPassword)) {
+    if (!isValidRequire(email, password, confirmPassword)) {
       dispatch(showNotificationAction('warning', '必須項目が未入力です'))
       return false
     }
@@ -206,7 +204,6 @@ export const signUp = (username: string, email: string, password: string, confir
             role: 'customer',
             uid: uid,
             updated_at: timestamp,
-            username: username,
           }
 
           db.collection('users')
@@ -224,9 +221,9 @@ export const signUp = (username: string, email: string, password: string, confir
   }
 }
 
-export const signUpAnon = (username: string, email: string, password: string, confirmPassword: string) => {
+export const signUpAnon = (email: string, password: string, confirmPassword: string) => {
   return async (dispatch: Dispatch) => {
-    if (!isValidRequire(username, email, password, confirmPassword)) {
+    if (!isValidRequire(email, password, confirmPassword)) {
       dispatch(showNotificationAction('warning', '必須項目が未入力です'))
       return false
     }
@@ -256,7 +253,6 @@ export const signUpAnon = (username: string, email: string, password: string, co
           role: 'customer',
           uid: uid,
           updated_at: timestamp,
-          username: username,
         }
 
         db.collection('users')

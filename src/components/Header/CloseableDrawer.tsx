@@ -109,7 +109,7 @@ const ClosableDrawer: React.FC<Props> = (props) => {
               </ListItem>
             ))}
             {userRole !== 'customer' && (
-              <ListItem button key="signup" onClick={(event) => selectMenu(event, '/anon/signup')}>
+              <ListItem button key="signup" onClick={(event) => selectMenu(event, '/signup')}>
                 <ListItemIcon>
                   <AccountCircleIcon className={classes.icon} />
                 </ListItemIcon>

@@ -1,11 +1,12 @@
 import { push } from 'connected-react-router'
 import React, { useCallback, useState } from 'react'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 
 import { makeStyles } from '@material-ui/core/styles'
 
 import { PrimaryButton, TextInput } from '../components/UIkit'
-import { signUp } from '../reducks/users/operations'
+import { signUp, signUpAnon } from '../reducks/users/operations'
+import { getIsSignedIn } from '../reducks/users/selectors'
 
 const useStyles = makeStyles((theme) => ({
   head: {
@@ -20,18 +21,12 @@ const useStyles = makeStyles((theme) => ({
 const SignUp: React.FC = () => {
   const classes = useStyles()
   const dispatch = useDispatch()
+  const selector = useSelector((state) => state)
+  const isSignedIn = getIsSignedIn(selector)
 
-  const [username, setUsername] = useState(''),
-    [email, setEmail] = useState(''),
+  const [email, setEmail] = useState(''),
     [password, setPassword] = useState(''),
     [confirmPassword, setConfirmPassword] = useState('')
-
-  const inputUsername = useCallback(
-    (event) => {
-      setUsername(event.target.value)
-    },
-    [setUsername]
-  )
 
   const inputEmail = useCallback(
     (event) => {
@@ -57,20 +52,10 @@ const SignUp: React.FC = () => {
   return (
     <div className="section-container">
       <div className="spacer-medium" />
-      <h2 className={classes.head}>アカウント新規登録</h2>
+      <h2 className={classes.head}>アカウント登録</h2>
       <div className="spacer-small" />
       <p className={classes.font}>パスワードは6文字以上で設定して下さい。</p>
       <div className="spacer-small" />
-      <TextInput
-        fullWidth={true}
-        label={'ユーザー名'}
-        multiline={false}
-        required={true}
-        rows={1}
-        value={username}
-        type={'text'}
-        onChange={inputUsername}
-      />
       <TextInput
         fullWidth={true}
         label={'メールアドレス'}
@@ -103,14 +88,29 @@ const SignUp: React.FC = () => {
       />
       <div className="spacer-small" />
       <div className="spacer-small" />
-      <PrimaryButton
-        label={'アカウント新規登録'}
-        onClick={() => dispatch(signUp(username, email, password, confirmPassword))}
-      />
+      {!isSignedIn && (
+        <PrimaryButton
+          label={'アカウント新規登録'}
+          onClick={() => dispatch(signUp(email, password, confirmPassword))}
+        />
+      )}
+      {isSignedIn && (
+        <PrimaryButton
+          label={'アカウント登録'}
+          onClick={() => dispatch(signUpAnon(email, password, confirmPassword))}
+        />
+      )}
       <div className="spacer-extrasmall" />
-      <p className={classes.font} onClick={() => dispatch(push('/signin'))}>
-        サインイン画面に戻る
-      </p>
+      {!isSignedIn && (
+        <p className={classes.font} onClick={() => dispatch(push('/signin'))}>
+          サインイン画面に戻る
+        </p>
+      )}
+      {isSignedIn && (
+        <p className={classes.font} onClick={() => dispatch(push('/'))}>
+          ホーム画面に戻る
+        </p>
+      )}
     </div>
   )
 }
