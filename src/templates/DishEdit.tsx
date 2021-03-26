@@ -29,7 +29,8 @@ const DishEdit: React.FC = () => {
   const uid = getUserId(selector)
 
   let id = window.location.pathname
-  if (id !== '/' && id !== '/dish/edit' && id !== '/signin') {
+  console.log(id)
+  if (id !== '/' && id !== '/top' && id !== '/change/email' && id !== '/change/password' && id !== '/dish/edit') {
     id = window.location.pathname.split('/dish/edit')[1]
     if (id !== '') {
       id = id.split('/')[1]
@@ -90,7 +91,7 @@ const DishEdit: React.FC = () => {
   }, [])
 
   useEffect(() => {
-    if (id !== '/' && id !== '/dish/edit' && id !== '/signin') {
+    if (id !== '/' && id !== '/top' && id !== '/change/email' && id !== '/change/password' && id !== '/dish/edit') {
       db.collection('users')
         .doc(uid)
         .collection('dishes')

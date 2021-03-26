@@ -23,12 +23,6 @@ import { getUserId, getUserRole } from '../../reducks/users/selectors'
 
 const useStyles = makeStyles((theme) =>
   createStyles({
-    drawer: {
-      [theme.breakpoints.up('sm')]: {
-        flexShrink: 0,
-        width: 230,
-      },
-    },
     toolbar: theme.mixins.toolbar,
     drawerPaper: {
       backgroundColor: theme.palette.primary.main,
@@ -92,7 +86,7 @@ const ClosableDrawer: React.FC<Props> = (props) => {
   }, [userId])
 
   return (
-    <nav className={classes.drawer}>
+    <nav>
       <Drawer
         variant="temporary"
         anchor="right"
@@ -123,7 +117,7 @@ const ClosableDrawer: React.FC<Props> = (props) => {
                 <ListItemIcon>
                   <MailIcon className={classes.icon} />
                 </ListItemIcon>
-                <ListItemText primary={'メールアドレス変更'} />
+                <ListItemText primary={'アドレス変更'} />
               </ListItem>
             )}
             {userRole == 'customer' && (
