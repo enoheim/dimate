@@ -1,6 +1,13 @@
 import React from 'react'
 
+import { makeStyles } from '@material-ui/core/styles'
 import TextField from '@material-ui/core/TextField'
+
+const useStyles = makeStyles((theme) => ({
+  root: {
+    width: '280px',
+  },
+}))
 
 type Props = {
   fullWidth: boolean
@@ -14,8 +21,11 @@ type Props = {
 }
 
 const TextInput: React.FC<Props> = (props: Props) => {
+  const classes = useStyles()
+
   return (
     <TextField
+      className={classes.root}
       fullWidth={props.fullWidth}
       label={props.label}
       margin="dense"

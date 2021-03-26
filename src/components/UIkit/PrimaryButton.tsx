@@ -10,7 +10,7 @@ const useStyles = makeStyles((theme) => ({
     fontSize: '16px',
     height: '48px',
     marginBottom: '16px',
-    width: '256px',
+    width: '230px',
   },
 }))
 
