@@ -71,20 +71,17 @@ Notionについては、簡単にWEB公開が出来るということで気軽�
 <br><br>
 ## 学習過程
 学習過程を特にお世話になった方々とともに記載していきます。
-1. [ドットインストール様](https://dotinstall.com/)
-<br>
+1. [ドットインストール様](https://dotinstall.com/)  
 HTML、CSS、JavaScriptの基礎を学ばせていただきました。
 <br>
 短時間の動画で基礎を学べるため、時間が空いたら気になる動画を観てみるという動きが出来ました。
 <br><br>
-1. [Udemy(Git：はじめてのGitとGitHub様)](https://www.udemy.com/course/intro_git/)
-<br>
+1. [Udemy(Git：はじめてのGitとGitHub様)](https://www.udemy.com/course/intro_git/)  
 Git、GitHubの基礎を学ばせていただきました。
 <br>
 構成管理ツールの使用経験はSVNのみでしたが、イメージを素早く掴むことが出来ました。
 <br><br>
-1. [【とらゼミ】トラハックのエンジニア学習講座様](https://www.youtube.com/channel/UC-bOAxx-YOsviSmqh8COR0w)
-<br>
+1. [【とらゼミ】トラハックのエンジニア学習講座様](https://www.youtube.com/channel/UC-bOAxx-YOsviSmqh8COR0w)  
 React、Redux、TypeScript、Material-UI、Firebaseについて学ばせていただきました。
 <br>
 ハンズオン形式で丁寧に学べる動画を作成されており、現役エンジニアに直接指導を頂いているような感覚で学ぶことが出来ました。
@@ -93,13 +90,12 @@ React、Redux、TypeScript、Material-UI、Firebaseについて学ばせてい�
 <br>
 何度も動画を視聴し、Notionに自分なりにアウトプットすることで知識の定着を図りました。
 <br><br>
-1. [くるみ割り書房 ft. React様](https://oukayuka.booth.pm/)
-<br>
+1. [くるみ割り書房 ft. React様](https://oukayuka.booth.pm/)  
 React、TypeScriptについて学ばせていただきました。
 <br>
 よりReact × TypeScript開発を学ぶために購入しましたが、JavaScriptの歴史やthisについて、Create React Appが何をしているのかについても記載されており理解が深まりました。
 <br>
 対話形式で入り込みやすく、研修用の教材としても使われているということで今後も繰り返し読み込みたい教材です。購入したのは下記3冊です。
-    - りあクト！ TypeScriptで始めるつらくないReact開発 第3.1版【Ⅰ. 言語・環境編】
-    - りあクト！ TypeScriptで始めるつらくないReact開発 第3.1版【Ⅱ. React基礎編】
-    - りあクト！ TypeScriptで始めるつらくないReact開発 第3.1版【Ⅲ. React応用編】
+  - りあクト！ TypeScriptで始めるつらくないReact開発 第3.1版【Ⅰ. 言語・環境編】
+  - りあクト！ TypeScriptで始めるつらくないReact開発 第3.1版【Ⅱ. React基礎編】
+  - りあクト！ TypeScriptで始めるつらくないReact開発 第3.1版【Ⅲ. React応用編】
