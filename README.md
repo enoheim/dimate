@@ -59,22 +59,22 @@ Firebaseを使用することで、まずはフロントエンド側の学習に
 
 ## 学習過程
 学習過程を特にお世話になった方々とともに記載していきます。
-1. [ドットインストール様](https://dotinstall.com/)
+1. [ドットインストール様](https://dotinstall.com/)  
 HTML、CSS、JavaScriptの基礎を学ばせていただきました。  
 短時間の動画で基礎を学べるため、時間が空いたら気になる動画を観てみるという動きが出来ます。
 
-2. [Udemy(Git：はじめてのGitとGitHub様)](https://www.udemy.com/course/intro_git/)
+2. [Udemy(Git：はじめてのGitとGitHub様)](https://www.udemy.com/course/intro_git/)  
 Git、GitHubの基礎を学ばせていただきました。  
 構成管理ツールの使用経験はSVNのみでしたが、イメージを素早く掴むことが出来ました。
 
-3. [【とらゼミ】トラハックのエンジニア学習講座様](https://www.youtube.com/channel/UC-bOAxx-YOsviSmqh8COR0w)
+3. [【とらゼミ】トラハックのエンジニア学習講座様](https://www.youtube.com/channel/UC-bOAxx-YOsviSmqh8COR0w)  
 React、Redux、TypeScript、Material-UI、Firebaseについて学ばせていただきました。  
 ハンズオン形式で丁寧に学べる動画を作成されており、現役エンジニアに直接指導を頂いているような  
 感覚で学ぶことが出来ました。  
 本アプリの設計手順についても動画を参考にさせていただきました。  
 何度も動画を視聴し、Notionに自分なりにアウトプットすることで知識の定着を図りました。
 
-4. [くるみ割り書房 ft. React様](https://oukayuka.booth.pm/)
+4. [くるみ割り書房 ft. React様](https://oukayuka.booth.pm/)  
 React、TypeScriptについて学ばせていただきました。  
 よりReact × TypeScript開発を学ぶために購入しましたが、JavaScriptの歴史やthisについて、  
 Create React Appが何をしているのかについても記載されており理解が深まりました。  
