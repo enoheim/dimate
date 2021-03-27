@@ -64,7 +64,7 @@ Notionについては、簡単にWEB公開が出来るということで気軽�
 HTML、CSS、JavaScriptの基礎を学ばせていただきました。
 短時間の動画で基礎を学べるため、時間が空いたら気になる動画を観てみるという動きが出来ます。
 
-2.[Udemy様 Git：はじめてのGitとGitHub](https://www.udemy.com/course/intro_git/)
+2.[Udemy(Git：はじめてのGitとGitHub様)](https://www.udemy.com/course/intro_git/)
 Git、GitHubの基礎を学ばせていただきました。
 構成管理ツールの使用経験はSVNのみでしたが、イメージを素早く掴むことが出来ました。
 
