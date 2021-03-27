@@ -77,13 +77,13 @@ HTML、CSS、JavaScriptの基礎を学ばせていただきました。
 <br>
 短時間の動画で基礎を学べるため、時間が空いたら気になる動画を観てみるという動きが出来ました。
 <br><br>
-2. [Udemy(Git：はじめてのGitとGitHub様)](https://www.udemy.com/course/intro_git/)
+1. [Udemy(Git：はじめてのGitとGitHub様)](https://www.udemy.com/course/intro_git/)
 <br>
 Git、GitHubの基礎を学ばせていただきました。
 <br>
 構成管理ツールの使用経験はSVNのみでしたが、イメージを素早く掴むことが出来ました。
 <br><br>
-3. [【とらゼミ】トラハックのエンジニア学習講座様](https://www.youtube.com/channel/UC-bOAxx-YOsviSmqh8COR0w)
+1. [【とらゼミ】トラハックのエンジニア学習講座様](https://www.youtube.com/channel/UC-bOAxx-YOsviSmqh8COR0w)
 <br>
 React、Redux、TypeScript、Material-UI、Firebaseについて学ばせていただきました。
 <br>
@@ -93,7 +93,7 @@ React、Redux、TypeScript、Material-UI、Firebaseについて学ばせてい�
 <br>
 何度も動画を視聴し、Notionに自分なりにアウトプットすることで知識の定着を図りました。
 <br><br>
-4. [くるみ割り書房 ft. React様](https://oukayuka.booth.pm/)
+1. [くるみ割り書房 ft. React様](https://oukayuka.booth.pm/)
 <br>
 React、TypeScriptについて学ばせていただきました。
 <br>
