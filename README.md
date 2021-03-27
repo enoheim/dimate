@@ -1,5 +1,5 @@
+![logo](https://user-images.githubusercontent.com/67832629/112724630-a1897900-8f57-11eb-97c4-9dbc63d76e4e.png)
 # dimate(自炊応援アプリ)
-
 ## URL
 https://dimate.web.app
 <br><br>
